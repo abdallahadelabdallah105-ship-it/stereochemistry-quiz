@@ -1,0 +1,1220 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الكيمياء الفراغية (Stereochemistry Quiz - Lec 1 & 2)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#152033',
+                            900: '#0F172A',
+                            950: '#090E1A',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            background-color: #0F172A;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.14) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(56, 189, 248, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #F8FAFC;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-sticky {
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.25);
+        }
+
+        .question-ltr {
+            font-family: 'Inter', sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .option-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            border-color: rgba(168, 85, 247, 0.5);
+            background: rgba(51, 65, 85, 0.6);
+        }
+
+        .option-selected {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.22) 0%, rgba(236, 72, 153, 0.22) 100%) !important;
+            border-color: #A855F7 !important;
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.4), 0 4px 15px -3px rgba(168, 85, 247, 0.25);
+        }
+
+        .option-correct {
+            background: rgba(16, 185, 129, 0.18) !important;
+            border-color: #10B981 !important;
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4);
+        }
+
+        .option-wrong {
+            background: rgba(239, 68, 68, 0.18) !important;
+            border-color: #EF4444 !important;
+            box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
+        }
+
+        .chem-canvas {
+            background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B5CF6;
+        }
+
+        @keyframes pulseSubtle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-subtle {
+            animation: pulseSubtle 2.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20 selection:bg-purple-500 selection:text-white">
+
+    <!-- Sticky Progress Top Bar -->
+    <div class="sticky top-0 z-40 glass-sticky py-3 px-4 shadow-lg">
+        <div class="max-w-3xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-md shadow-purple-500/20">
+                    <i class="fa-solid fa-flask-vial text-white text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="text-xs sm:text-sm font-bold text-slate-100 leading-tight">Stereochemistry Quiz</h2>
+                    <p class="text-[11px] text-slate-400">جامعة حلوان - كلية العلوم (Lec 1 & 2)</p>
+                </div>
+            </div>
+
+            <!-- Live Progress Indicator -->
+            <div class="flex items-center gap-3 flex-1 max-w-xs sm:max-w-sm mr-auto sm:mr-0">
+                <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700">
+                    <div id="sticky-progress-bar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="sticky-progress-text" class="text-xs font-bold text-purple-300 whitespace-nowrap font-inter">0 / 15</span>
+            </div>
+
+            <!-- Shuffle Action Button -->
+            <button id="shuffle-top-btn" onclick="handleShuffleQuestions()" class="text-xs sm:text-sm font-semibold px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600/80 hover:border-purple-400/60 transition flex items-center gap-2 shadow-sm active:scale-95">
+                <i class="fa-solid fa-shuffle text-pink-400"></i>
+                <span>خلط الأسئلة <span class="hidden md:inline font-inter text-xs text-slate-400">(Shuffle)</span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container (Google Form Style Column) -->
+    <main class="max-w-3xl mx-auto px-4 pt-6 sm:pt-8 space-y-6">
+
+        <!-- Google Form Header Card -->
+        <section class="glass-card rounded-2xl overflow-hidden relative">
+            <!-- Top Purple-Pink Gradient Banner -->
+            <div class="h-3.5 w-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500"></div>
+            
+            <div class="p-6 sm:p-8 space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        Helwan University • Faculty of Science
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-pink-500/15 text-pink-300 border border-pink-500/30 font-inter">
+                        15 Questions • Past Exams
+                    </span>
+                </div>
+
+                <div class="space-y-2">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-white via-purple-100 to-pink-200 bg-clip-text text-transparent leading-snug">
+                        اختبار الكيمياء الفراغية (Stereochemistry Quiz - Lec 1 & 2)
+                    </h1>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        أسئلة امتحانات سابقة على المحاضرة الأولى والثانية - اختبر نفسك وابعته لصحابك
+                    </p>
+                </div>
+
+                <!-- Notice Pill -->
+                <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-700/80 flex items-start gap-3 text-xs sm:text-sm text-slate-300">
+                    <i class="fa-solid fa-circle-info text-purple-400 mt-1 text-base"></i>
+                    <div>
+                        <span class="font-bold text-white">نظام الاختبار:</span>
+                        الأسئلة مجمعة من امتحانات السنين السابقة الخاصة بالمحاضرة الأولى والثانية فقط. 
+                        <span class="text-pink-300 font-semibold">لن تظهر الإجابات الصحيحة أو التفسير العلمي إلا بعد الضغط على زر "إرسال الإجابات" في نهاية الصفحة.</span>
+                    </div>
+                </div>
+
+                <!-- Student Name Input & Progress Summary -->
+                <div class="pt-2 grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
+                    <div class="sm:col-span-7 space-y-1.5">
+                        <label for="student-name" class="block text-xs sm:text-sm font-semibold text-slate-300">
+                            اسم الطالب / الطالبة <span class="text-rose-400 font-normal">(مطلوب للتتبع)</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 pointer-events-none">
+                                <i class="fa-regular fa-user"></i>
+                            </span>
+                            <input 
+                                type="text" 
+                                id="student-name" 
+                                placeholder="اكتب اسمك هنا عشان يظهر في النتيجة..."
+                                class="w-full pr-10 pl-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-5 bg-slate-900/80 p-3 rounded-xl border border-slate-700/80 flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-xs mb-1.5">
+                            <span class="text-slate-400 font-medium">نسبة الإنجاز:</span>
+                            <span id="header-progress-label" class="font-bold text-purple-300">تمت الإجابة على 0 من 15</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div id="header-progress-bar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Result Banner (Hidden until quiz is submitted) -->
+        <section id="result-section" class="hidden glass-card rounded-2xl overflow-hidden border-2 border-purple-500/50 transition-all duration-500">
+            <div class="bg-gradient-to-r from-purple-600/30 via-fuchsia-600/25 to-pink-600/30 p-6 sm:p-8 text-center space-y-5">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/30 text-white text-2xl mb-1">
+                    <i id="result-icon" class="fa-solid fa-trophy"></i>
+                </div>
+
+                <div class="space-y-1">
+                    <h2 id="result-greeting" class="text-xl sm:text-2xl font-extrabold text-white">نتيجة الاختبار النهائية</h2>
+                    <p id="result-subtitle" class="text-sm text-slate-300">راجِع إجاباتك والتفسير العلمي المفصل لكل سؤال بالأسفل</p>
+                </div>
+
+                <!-- Score Circle / Box -->
+                <div class="flex flex-wrap justify-center gap-4 pt-2">
+                    <div class="bg-slate-900/90 border border-slate-700 px-6 py-4 rounded-2xl min-w-[140px]">
+                        <div class="text-xs text-slate-400 mb-1">الدرجة الكلية</div>
+                        <div id="result-score-number" class="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-inter">
+                            0 / 15
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 border border-slate-700 px-6 py-4 rounded-2xl min-w-[140px]">
+                        <div class="text-xs text-slate-400 mb-1">النسبة المئوية</div>
+                        <div id="result-percentage" class="text-3xl font-extrabold text-emerald-400 font-inter">
+                            0%
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 border border-slate-700 px-6 py-4 rounded-2xl min-w-[140px]">
+                        <div class="text-xs text-slate-400 mb-1">الإجابات الخاطئة</div>
+                        <div id="result-wrong-count" class="text-3xl font-extrabold text-rose-400 font-inter">
+                            0
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Retake & Share Buttons -->
+                <div class="pt-3 flex flex-wrap items-center justify-center gap-3">
+                    <button onclick="resetQuiz(false)" class="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition flex items-center gap-2 active:scale-95">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>إعادة الاختبار (Retake Quiz)</span>
+                    </button>
+                    <button onclick="resetQuiz(true)" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-sm transition flex items-center gap-2 active:scale-95">
+                        <i class="fa-solid fa-shuffle text-pink-400"></i>
+                        <span>إعادة مع خلط الأسئلة</span>
+                    </button>
+                    <button onclick="sendResultsToSheets()" class="px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-semibold text-sm shadow-lg transition flex items-center gap-2 active:scale-95">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>إرسال النتيجة للمعلم (Send to Sheets)</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Questions Container -->
+        <div id="questions-container" class="space-y-5">
+            <!-- Dynamically populated by JavaScript -->
+        </div>
+
+        <!-- Warning Message for Unanswered Questions (Inline Modal/Banner) -->
+        <div id="unanswered-warning" class="hidden glass-card rounded-2xl p-5 border-2 border-amber-500/60 bg-amber-950/30 text-amber-200 space-y-3">
+            <div class="flex items-start gap-3">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xl mt-0.5"></i>
+                <div class="space-y-1 flex-1">
+                    <h4 class="font-bold text-sm sm:text-base text-amber-300">تنبيه: لم تقم بالإجابة على جميع الأسئلة!</h4>
+                    <p id="unanswered-warning-text" class="text-xs sm:text-sm text-amber-100/90">
+                        يتبقى لديك بعض الأسئلة بدون إجابة. هل ترغب في استكمالها أولاً أم إرسال الاختبار وتصحيحه الآن؟
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center justify-end gap-3 pt-1">
+                <button onclick="scrollToFirstUnanswered()" class="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs sm:text-sm font-semibold transition">
+                    الذهاب لأول سؤال غير مجاب
+                </button>
+                <button onclick="finalizeSubmission()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs sm:text-sm font-bold shadow-md transition">
+                    إرسال وعرض النتيجة على أي حال
+                </button>
+            </div>
+        </div>
+
+        <!-- Submit & Footer Action Section -->
+        <section id="submit-section" class="glass-card rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-center sm:text-right space-y-1">
+                <h3 class="font-bold text-slate-100 text-base">هل انتهيت من مراجعة إجاباتك؟</h3>
+                <p class="text-xs text-slate-400">اضغط على زر الإرسال لتصحيح الاختبار وإظهار الشرح التفصيلي لكل سؤال.</p>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
+                <button id="submit-quiz-btn" onclick="handleSubmitClick()" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-purple-600/25 transition flex items-center justify-center gap-2.5 active:scale-95">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>إرسال الإجابات وعرض النتيجة (Submit Quiz)</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Post-Submit Bottom Retake Bar (Hidden initially) -->
+        <section id="post-submit-footer" class="hidden glass-card rounded-2xl p-6 text-center space-y-4">
+            <p class="text-sm text-slate-300">انتهيت من مراجعة التصحيح والتفسيرات العلمية؟ يمكنك إعادة الاختبار لتثبيت المعلومة!</p>
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="resetQuiz(false)" class="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm shadow-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>إعادة الاختبار (Retake Quiz)</span>
+                </button>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-up"></i>
+                    <span>العودة لأعلى الصفحة</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- Google Sheets Setup Modal -->
+    <div id="sheets-setup-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-lg w-full space-y-5 border-2 border-purple-500/40">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-link text-purple-400"></i>
+                    ربط Google Sheets لتتبع النتائج
+                </h3>
+                <button onclick="closeSetupModal()" class="text-slate-400 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 text-xs sm:text-sm text-slate-300 space-y-3">
+                <p class="font-bold text-purple-300"><i class="fa-solid fa-circle-info mr-1"></i> خطوات الإعداد (مرة واحدة فقط):</p>
+                <ol class="list-decimal list-inside space-y-2 text-slate-300" style="direction: rtl;">
+                    <li>افتح <a href="https://docs.google.com/spreadsheets" target="_blank" class="text-purple-400 underline hover:text-purple-300">Google Sheets</a> وأنشئ شيت جديد.</li>
+                    <li>في الصف الأول اكتب العناوين التالية:
+                        <code class="text-xs bg-slate-800 px-2 py-0.5 rounded text-pink-300 font-inter" dir="ltr">studentName | score | percentage | correctCount | wrongCount | mistakes | timestamp</code>
+                    </li>
+                    <li>من القائمة اضغط <strong class="text-white">Extensions → Apps Script</strong>.</li>
+                    <li>امسح الكود الموجود والصق الكود ده:
+                        <pre class="mt-2 bg-slate-950 p-3 rounded-lg text-[10px] sm:text-xs text-green-300 font-inter overflow-x-auto" dir="ltr"><code>function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  sheet.appendRow([
+    e.parameter.studentName,
+    e.parameter.score,
+    e.parameter.percentage,
+    e.parameter.correctCount,
+    e.parameter.wrongCount,
+    e.parameter.mistakes,
+    e.parameter.timestamp
+  ]);
+  return ContentService.createTextOutput("OK");
+}</code></pre>
+                    </li>
+                    <li>اضغط <strong class="text-white">Deploy → New Deployment</strong> → اختار <strong class="text-white">Web app</strong> → Execute as: <strong>Me</strong> → Who has access: <strong>Anyone</strong> → Deploy.</li>
+                    <li>انسخ الرابط الي ظهرلك (Web app URL) والصقه هنا تحت.</li>
+                </ol>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-semibold text-slate-300">رابط Google Apps Script Web App:</label>
+                <input 
+                    type="url" 
+                    id="sheets-url-input" value="https://script.google.com/macros/s/AKfycbycYvQcRVM9jRcLh9OkS9_H1dMPXFq25T-Q0AD2F3M94SbkltOdbTwlw6WQfaYH2F1M/exec" 
+                    placeholder="https://script.google.com/macros/s/..../exec"
+                    class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition font-inter"
+                    dir="ltr"
+                >
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2">
+                <button onclick="closeSetupModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600 text-sm font-semibold transition">
+                    إلغاء
+                </button>
+                <button onclick="saveGoogleSheetsURL()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm shadow-lg transition">
+                    <i class="fa-solid fa-check mr-1"></i> حفظ الرابط
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin: Google Sheets Setup Button (Fixed Bottom-Right) -->
+    <button onclick="setupGoogleSheets()" class="fixed bottom-5 right-5 z-40 w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-xl shadow-purple-600/30 flex items-center justify-center transition hover:scale-110 active:scale-95" title="إعداد Google Sheets لتتبع النتائج">
+        <i class="fa-solid fa-database text-lg"></i>
+    </button>
+
+    <!-- Send Results Button (shown in result section) - we add it via JS after submit -->
+
+    <!-- Custom Toast Notification -->
+    <div id="toast-msg" class="fixed bottom-5 left-5 z-50 hidden transform transition-all duration-300">
+        <div class="glass-card px-4 py-3 rounded-xl border border-purple-500/50 shadow-2xl flex items-center gap-3 text-sm text-white">
+            <i class="fa-solid fa-sparkles text-pink-400"></i>
+            <span id="toast-text">تم خلط الأسئلة بنجاح!</span>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // ChemDraw-Style High-Contrast SVG Drawings
+        // ==========================================
+        const svgDrawings = {
+            // Compound (I): Central C=C, Left: H (top-left), H3C (bottom-left) | Right: CCH (top-right), C(CH3)3 (bottom-right)
+            compoundI: `
+                <svg viewBox="0 0 420 210" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Compound Label 'I' -->
+                    <text x="32" y="112" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">I</text>
+                    
+                    <!-- Central C=C Double Bond -->
+                    <line x1="165" y1="100" x2="245" y2="100" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <line x1="165" y1="110" x2="245" y2="110" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+
+                    <!-- Top-Left Bond to H -->
+                    <line x1="165" y1="105" x2="125" y2="48" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="112" y="40" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">H</text>
+
+                    <!-- Bottom-Left Bond to H3C -->
+                    <line x1="165" y1="105" x2="125" y2="162" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="102" y="182" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">
+                        H<tspan dy="5" font-size="14">3</tspan><tspan dy="-5">C</tspan>
+                    </text>
+
+                    <!-- Top-Right Bond to CCH -->
+                    <line x1="245" y1="105" x2="285" y2="48" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="292" y="42" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="start">CCH</text>
+
+                    <!-- Bottom-Right Bond to C(CH3)3 -->
+                    <line x1="245" y1="105" x2="285" y2="162" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="290" y="182" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="start">
+                        C(CH<tspan dy="5" font-size="14">3</tspan><tspan dy="-5">)</tspan><tspan dy="5" font-size="14">3</tspan>
+                    </text>
+                </svg>
+            `,
+
+            // Compound (G): Central C=C, Left: H (top-left), H2N (bottom-left) | Right: OH (top-right), CH3 (bottom-right)
+            compoundG: `
+                <svg viewBox="0 0 420 210" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Compound Label 'G' -->
+                    <text x="32" y="112" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">G</text>
+                    
+                    <!-- Central C=C Double Bond -->
+                    <line x1="165" y1="100" x2="245" y2="100" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <line x1="165" y1="110" x2="245" y2="110" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+
+                    <!-- Top-Left Bond to H -->
+                    <line x1="165" y1="105" x2="125" y2="48" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="112" y="40" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">H</text>
+
+                    <!-- Bottom-Left Bond to H2N -->
+                    <line x1="165" y1="105" x2="125" y2="162" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="102" y="182" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">
+                        H<tspan dy="5" font-size="14">2</tspan><tspan dy="-5">N</tspan>
+                    </text>
+
+                    <!-- Top-Right Bond to OH -->
+                    <line x1="245" y1="105" x2="285" y2="48" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="292" y="42" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="start">OH</text>
+
+                    <!-- Bottom-Right Bond to CH3 -->
+                    <line x1="245" y1="105" x2="285" y2="162" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="290" y="182" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="start">
+                        CH<tspan dy="5" font-size="14">3</tspan>
+                    </text>
+                </svg>
+            `,
+
+            // Compound (J): 6-membered heterocycle with 'O' at top-left vertex, vertical double bond on right side,
+            // top-right attached to CH3, bottom-right attached to -CH2-OH bend
+            compoundJ: `
+                <svg viewBox="0 0 430 230" class="w-full max-w-[400px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Compound Label 'J' -->
+                    <text x="32" y="118" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">J</text>
+
+                    <!-- 6-Membered Ring Coordinates:
+                         Top (T): (175, 45)
+                         Top-Right (TR): (227, 75)
+                         Bottom-Right (BR): (227, 135)
+                         Bottom (B): (175, 165)
+                         Bottom-Left (BL): (123, 135)
+                         Top-Left (TL - Oxygen): (123, 75)
+                    -->
+                    <!-- Ring Bonds (with clean gap at Top-Left for Oxygen 'O') -->
+                    <!-- Top to Top-Right -->
+                    <line x1="175" y1="45" x2="227" y2="75" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Right Vertical Double Bond (TR to BR) -->
+                    <line x1="227" y1="75" x2="227" y2="135" stroke="#38BDF8" stroke-width="3.2" stroke-linecap="round"/>
+                    <line x1="218" y1="80" x2="218" y2="130" stroke="#38BDF8" stroke-width="3.2" stroke-linecap="round"/>
+                    <!-- Bottom-Right to Bottom -->
+                    <line x1="227" y1="135" x2="175" y2="165" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Bottom to Bottom-Left -->
+                    <line x1="175" y1="165" x2="123" y2="135" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Bottom-Left up toward Top-Left 'O' -->
+                    <line x1="123" y1="135" x2="123" y2="92" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Top-Left 'O' to Top -->
+                    <line x1="137" y1="67" x2="175" y2="45" stroke="#E2E8F0" stroke-width="3" stroke-linecap="round"/>
+
+                    <!-- Oxygen Heteroatom at Top-Left Vertex -->
+                    <text x="123" y="83" fill="#F87171" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">O</text>
+
+                    <!-- Top-Right Substituent: Bond going up-right to CH3 -->
+                    <line x1="227" y1="75" x2="275" y2="47" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="281" y="51" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="start">
+                        CH<tspan dy="5" font-size="13">3</tspan>
+                    </text>
+
+                    <!-- Bottom-Right Substituent: Bond going down-right to CH2 vertex (275, 163), then up-right to OH -->
+                    <line x1="227" y1="135" x2="275" y2="163" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="275" y1="163" x2="318" y2="138" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="324" y="142" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="start">OH</text>
+                </svg>
+            `,
+
+            // Compound (H): Central C=C, Left: Br (top-left), H3C (bottom-left) | Right: CH3 (top-right), COOH (bottom-right)
+            compoundH: `
+                <svg viewBox="0 0 420 210" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Compound Label 'H' -->
+                    <text x="32" y="112" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">H</text>
+                    
+                    <!-- Central C=C Double Bond -->
+                    <line x1="165" y1="100" x2="245" y2="100" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <line x1="165" y1="110" x2="245" y2="110" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+
+                    <!-- Top-Left Bond to Br -->
+                    <line x1="165" y1="105" x2="125" y2="48" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="108" y="42" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">Br</text>
+
+                    <!-- Bottom-Left Bond to H3C -->
+                    <line x1="165" y1="105" x2="125" y2="162" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="102" y="182" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">
+                        H<tspan dy="5" font-size="14">3</tspan><tspan dy="-5">C</tspan>
+                    </text>
+
+                    <!-- Top-Right Bond to CH3 -->
+                    <line x1="245" y1="105" x2="285" y2="48" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="292" y="42" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="start">
+                        CH<tspan dy="5" font-size="14">3</tspan>
+                    </text>
+
+                    <!-- Bottom-Right Bond to COOH -->
+                    <line x1="245" y1="105" x2="285" y2="162" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="290" y="182" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="start">COOH</text>
+                </svg>
+            `,
+
+            // Compound (K) - Naming Q1: (Z)-1-Chloropropene => C=C with Cl(top-left), CH3(top-right), H(bottom-left), H(bottom-right)
+            // Source: Dr. Robbe's custom question
+            compoundK: `
+                <svg viewBox="0 0 440 230" class="w-full max-w-[410px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Compound Label 'K' -->
+                    <text x="32" y="118" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">K</text>
+                    
+                    <!-- Central C=C Double Bond -->
+                    <line x1="170" y1="100" x2="270" y2="100" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <line x1="170" y1="110" x2="270" y2="110" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+
+                    <!-- Top-Left Bond to Cl -->
+                    <line x1="170" y1="105" x2="120" y2="45" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="104" y="38" fill="#4ADE80" font-family="Inter, sans-serif" font-weight="700" font-size="22" text-anchor="middle">Cl</text>
+
+                    <!-- Bottom-Left Bond to H -->
+                    <line x1="170" y1="105" x2="120" y2="168" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="112" y="190" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="22" text-anchor="middle">H</text>
+
+                    <!-- Top-Right Bond to CH3 -->
+                    <line x1="270" y1="105" x2="320" y2="45" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="328" y="40" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="start">CH<tspan dy="5" font-size="14">3</tspan></text>
+
+                    <!-- Bottom-Right Bond to H -->
+                    <line x1="270" y1="105" x2="320" y2="168" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="332" y="186" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="22" text-anchor="start">H</text>
+
+                    <!-- Source label -->
+                    <text x="400" y="220" fill="#6366F1" font-family="Inter, sans-serif" font-weight="600" font-size="11" text-anchor="end" opacity="0.7">Source: Dr. Robbe</text>
+                </svg>
+            `,
+
+            // Compound (L) - Naming Q2: (E)-1-Bromo-1-chloro-2-iodo-2-methylethene
+            // C=C with I(top-left), H3C(bottom-left), Cl(top-right), Br(bottom-right)
+            // Source: Dr. Robbe's custom question
+            compoundL: `
+                <svg viewBox="0 0 440 230" class="w-full max-w-[410px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Compound Label 'L' -->
+                    <text x="32" y="118" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">L</text>
+                    
+                    <!-- Central C=C Double Bond -->
+                    <line x1="170" y1="100" x2="270" y2="100" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <line x1="170" y1="110" x2="270" y2="110" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+
+                    <!-- Top-Left Bond to I -->
+                    <line x1="170" y1="105" x2="120" y2="45" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="110" y="38" fill="#C084FC" font-family="Inter, sans-serif" font-weight="700" font-size="24" text-anchor="middle">I</text>
+
+                    <!-- Bottom-Left Bond to H3C -->
+                    <line x1="170" y1="105" x2="120" y2="168" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="96" y="190" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">H<tspan dy="5" font-size="14">3</tspan><tspan dy="-5">C</tspan></text>
+
+                    <!-- Top-Right Bond to Cl -->
+                    <line x1="270" y1="105" x2="320" y2="45" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="328" y="40" fill="#4ADE80" font-family="Inter, sans-serif" font-weight="700" font-size="22" text-anchor="start">Cl</text>
+
+                    <!-- Bottom-Right Bond to Br -->
+                    <line x1="270" y1="105" x2="320" y2="168" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="328" y="186" fill="#FB923C" font-family="Inter, sans-serif" font-weight="700" font-size="22" text-anchor="start">Br</text>
+
+                    <!-- Source label -->
+                    <text x="400" y="220" fill="#6366F1" font-family="Inter, sans-serif" font-weight="600" font-size="11" text-anchor="end" opacity="0.7">Source: Dr. Robbe</text>
+                </svg>
+            `
+        };
+
+        // ==========================================
+        // Questions Data (15 Questions)
+        // ==========================================
+        const initialQuestions = [
+            {
+                id: 1,
+                type: "tf",
+                question: "Geometrical isomerism cannot exist in alkenes.",
+                badge: "Exam 2 & 3 - Q19",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ لأن الألكينات تحتوي على رابطة مزدوجة (sp2) تمنع الدوران الحر (No free rotation)، وبالتالي هي أشهر المركبات التي يظهر فيها الـ Geometrical isomerism بشرط وجود مجموعتين مختلفتين على كل ذرة كربون في الرابطة المزدوجة."
+            },
+            {
+                id: 2,
+                type: "tf",
+                question: "Enantiomers have different melting points in achiral solvents.",
+                badge: "Exam 3 - Q5",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ لأن الـ Enantiomers (أيزومرات المرآة) لها نفس الخواص الفيزيائية تماماً (مثل درجة الانصهار والغليان) في الأوساط غير الكيرالية (Achiral)."
+            },
+            {
+                id: 3,
+                type: "mcq",
+                question: "The configuration of Compound (I) is.......",
+                badge: "Exam Sheet B - Q9",
+                svg: svgDrawings.compoundI,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "D. E",
+                explanation: "الإجابة (D. E)؛ على ذرة الكربون اليسرى: مجموعة H₃C (كربون) أعلى أولوية من H (تحت). وعلى ذرة الكربون اليمنى: مقارنة بين -C≡CH (حيث الكربون مرتبط بثلاث روابط كربون والكربون الطرفي مرتبط بـ (C,C,H)) وبين -C(CH₃)₃ (حيث الكربون مرتبط بثلاث ذرات كربون كل منها مرتبطة بـ (H,H,H))، فتكون مجموعة -CCH أعلى أولوية طبقاً لقواعد CIP (فوق). وبما أن المجموعتين الأعلى في الأولوية في اتجاهين متعاكسين (واحدة فوق وواحدة تحت) يكون المركب (E). (ملاحظة هامة: لو تم اعتبار -C(CH₃)₃ أكبر حجماً Bulk في التبسيط السريع بدون تفكيك الرابطة الثلاثية ستكونان في نفس الاتجاه Z، لكن علمياً طبقاً لـ CIP الإجابة E)."
+            },
+            {
+                id: 4,
+                type: "tf",
+                question: "Geometrical isomerism occurs in all alkanes.",
+                badge: "Exam 2 - Q6",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ لأن الألكانات المفتوحة تحتوي على روابط أحادية (Single bonds) لها حرية دوران (Free rotation)، ولا يحدث الـ Geometrical isomerism إلا في الألكانات الحلقية المستبدلة (Substituted Cycloalkanes) وليس كل الألكانات."
+            },
+            {
+                id: 5,
+                type: "mcq",
+                question: "The configuration of Compound (G) is.......",
+                badge: "Exam Sheet B - Q7",
+                svg: svgDrawings.compoundG,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "D. E",
+                explanation: "الإجابة (D. E)؛ على الكربونة اليسرى نقارن الذرات المتصلة مباشرة: N (في H₂N) أعلى في العدد الذري من H، إذن الأولوية لـ H₂N (تحت). وعلى الكربونة اليمنى: O (في OH) أعلى في العدد الذري من C (في CH₃)، إذن الأولوية لـ OH (فوق). المجموعتان الأعلى في عكس الاتجاه إذن (E)."
+            },
+            {
+                id: 6,
+                type: "tf",
+                question: "Geometrical isomers interconvert spontaneously at room temperature.",
+                badge: "Exam 2 - Q15",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ لأن الرابطة المزدوجة (أو الحلقة) تمنع الدوران الحر (Restricted rotation)، فلا يمكن أن يتحول أيزومر Cis إلى Trans تلقائياً في درجة حرارة الغرفة."
+            },
+            {
+                id: 7,
+                type: "tf",
+                question: "All cis-isomers have identical physical properties.",
+                badge: "Exam 2 & 3 - Q20",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ الخواص الفيزيائية تختلف من مركب لآخر، كما أن أيزومرات الـ Cis والـ Trans تعتبر Diastereomers تختلف عن بعضها في الخواص الفيزيائية والكيميائية."
+            },
+            {
+                id: 8,
+                type: "mcq",
+                question: "The configuration of Compound (J) is.......",
+                badge: "Exam Sheet B - Q10",
+                svg: svgDrawings.compoundJ,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "D. E",
+                explanation: "الإجابة (D. E)؛ على الكربونة العلوية للرابطة المزدوجة نقارن بين خارج الحلقة (-CH₃ يعني كربونة متصلة بـ 3H) وداخل الحلقة (-CH₂-O- يعني كربونة متصلة بـ O)، فتكون الأولوية لداخل الحلقة (يسار الرابطة). وعلى الكربونة السفلية للرابطة المزدوجة نقارن بين خارج الحلقة (-CH₂OH يعني كربونة متصلة بـ O) وداخل الحلقة (-CH₂-CH₂- يعني كربونة متصلة بـ C)، فتكون الأولوية لخارج الحلقة (يمين الرابطة). واحدة داخل الحلقة (يسار) وواحدة خارجها (يمين) أي عكس بعض، فيكون المركب (E)."
+            },
+            {
+                id: 9,
+                type: "tf",
+                question: "Enantiomers react differently with achiral reagents.",
+                badge: "Exam 2 & 3 - Q12",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ الـ Enantiomers لها نفس الخواص الكيميائية تماماً عند التفاعل مع كواشف غير كيرالية (Achiral reagents)."
+            },
+            {
+                id: 10,
+                type: "tf",
+                question: "Geometrical isomers cannot be isolated at room temperature.",
+                badge: "Exam 3 - Q15",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ لأن الأيزومرات الهندسية (Geometrical isomers) ثابتة في درجة حرارة الغرفة بسبب عدم وجود دوران حر حول الرابطة المزدوجة، ولذلك يمكن فصلها وعزلها بسهولة في درجة حرارة الغرفة."
+            },
+            {
+                id: 11,
+                type: "mcq",
+                question: "The configuration of Compound (H) is.......",
+                badge: "Exam Sheet B - Q8",
+                svg: svgDrawings.compoundH,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "D. E",
+                explanation: "الإجابة (D. E)؛ على الكربونة اليسرى: Br أعلى في العدد الذري من C (في H₃C)، فالأولوية لـ Br (فوق). وعلى الكربونة اليمنى: الكربونتان متصلتان بـ C، لكن كربونة COOH متصلة بـ O بينما كربونة CH₃ متصلة بـ H، فالأولوية لـ COOH (تحت). المجموعتان الأعلى في اتجاهين متعاكسين (واحدة فوق وواحدة تحت) إذن (E)."
+            },
+            {
+                id: 12,
+                type: "tf",
+                question: "Enantiomers have different boiling points in achiral solvents.",
+                badge: "Exam 2 - Q5",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ لأن الـ Enantiomers تتطابق في جميع الخواص الفيزيائية كدرجة الغليان والانصهار والكثافة."
+            },
+            {
+                id: 13,
+                type: "tf",
+                question: "Geometrical isomerism occurs in all single-bonded alkanes.",
+                badge: "Exam 3 - Q6",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ الروابط الأحادية المفتوحة تتميز بحرية الدوران (Free rotation) فلا تعطي Geometrical isomerism."
+            },
+            {
+                id: 14,
+                type: "mcq",
+                question: "Name compound (K) shown below. (سمّي المركب K الموضح بالأسفل)",
+                badge: "Dr. Robbe - Naming",
+                svg: svgDrawings.compoundK,
+                options: [
+                    "A. Propene",
+                    "B. 3-Chloroprop-1-ene",
+                    "C. (E)-1-Chloroprop-1-ene",
+                    "D. (Z)-1-Chloroprop-1-ene"
+                ],
+                correctAnswer: "D. (Z)-1-Chloroprop-1-ene",
+                explanation: "الإجابة (D)؛ المركب هو (Z)-1-Chloroprop-1-ene. أولاً: نحدد السلسلة الأطول التي تحتوي على الرابطة المزدوجة وهي Prop-1-ene (3 كربونات). ثانياً: Cl مستبدلة على C1 فتكون 1-chloro. ثالثاً: لتحديد Z/E نطبق قواعد CIP: على C1 → Cl (Z=17) أعلى أولوية من H (Z=1). على C2 → CH₃ (C, Z=6) أعلى أولوية من H (Z=1). المجموعتان الأعلى أولوية (Cl و CH₃) على نفس الجانب (أعلى) → (Z). لذلك الخيار A خطأ لأنه يتجاهل Cl تماماً. الخيار B خطأ في الترقيم (يجب أن يكون 1-chloro وليس 3-chloro). الخيار C خطأ في تحديد التكوين الفراغي (E بدلاً من Z). المصدر: Dr. Robbe"
+            },
+            {
+                id: 15,
+                type: "mcq",
+                question: "Name compound (L) shown below. (سمّي المركب L الموضح بالأسفل)",
+                badge: "Dr. Robbe - Naming",
+                svg: svgDrawings.compoundL,
+                options: [
+                    "A. Chloroethene",
+                    "B. 1-Bromo-1-chloro-2-iodoethene",
+                    "C. (Z)-1-Bromo-1-chloro-2-iodo-2-methylethene",
+                    "D. (E)-1-Bromo-1-chloro-2-iodo-2-methylethene"
+                ],
+                correctAnswer: "D. (E)-1-Bromo-1-chloro-2-iodo-2-methylethene",
+                explanation: "الإجابة (D)؛ المركب هو (E)-1-Bromo-1-chloro-2-iodo-2-methylethene. أولاً: السلسلة الأم هي إيثين (Ethene) لأن الرابطة المزدوجة بين كربونتين فقط. ثانياً: المستبدلات مرتبة أبجدياً: Bromo ← Chloro ← Iodo ← Methyl. الترقيم: الكربونة اللي عليها Br و Cl تكون C1 (عشان Bromo أول حرف أبجدياً تأخذ أقل رقم). ثالثاً: لتحديد Z/E → على C1: Br (Z=35) > Cl (Z=17). على C2: I (Z=53) > CH₃ (C, Z=6). المجموعتان الأعلى أولوية (Br أسفل-يمين و I أعلى-يسار) على جوانب متعاكسة → (E). الخيار A ناقص جداً. الخيار B ينقصه المثيل و Z/E. الخيار C خطأ في التكوين الفراغي. المصدر: Dr. Robbe"
+            }
+        ];
+
+        // ==========================================
+        // State Management
+        // ==========================================
+        let questionsList = [...initialQuestions];
+        let userAnswers = {}; // { questionId: selectedOption }
+        let isSubmitted = false;
+
+        // ==========================================
+        // Render Quiz Questions
+        // ==========================================
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            questionsList.forEach((q, index) => {
+                const selected = userAnswers[q.id];
+                const isAnswered = selected !== undefined;
+
+                // Determine card border after submission
+                let cardBorderClass = 'border-slate-700/80';
+                let statusBadgeHTML = '';
+
+                if (isSubmitted) {
+                    const isCorrect = selected === q.correctAnswer;
+                    if (isCorrect) {
+                        cardBorderClass = 'border-emerald-500/70';
+                        statusBadgeHTML = `
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                                <i class="fa-solid fa-circle-check"></i> إجابة صحيحة
+                            </span>
+                        `;
+                    } else {
+                        cardBorderClass = 'border-rose-500/70';
+                        statusBadgeHTML = `
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                                <i class="fa-solid fa-circle-xmark"></i> ${isAnswered ? 'إجابة خاطئة' : 'لم تتم الإجابة'}
+                            </span>
+                        `;
+                    }
+                }
+
+                // Render Options HTML
+                const gridColsClass = q.type === 'tf' ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2';
+                const optionsHTML = q.options.map((opt) => {
+                    const isThisSelected = selected === opt;
+                    const isThisCorrect = opt === q.correctAnswer;
+
+                    let optionStyle = 'bg-slate-900/75 border-slate-700 text-slate-200';
+                    let iconIndicator = `<span class="w-5 h-5 rounded-full border-2 border-slate-500 flex items-center justify-center"></span>`;
+
+                    if (!isSubmitted) {
+                        if (isThisSelected) {
+                            optionStyle = 'option-selected text-white font-semibold';
+                            iconIndicator = `
+                                <span class="w-5 h-5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-[10px]">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            `;
+                        }
+                    } else {
+                        // Post-Submission Styling
+                        if (isThisCorrect) {
+                            optionStyle = 'option-correct text-emerald-200 font-bold';
+                            iconIndicator = `
+                                <span class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 text-xs">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            `;
+                        } else if (isThisSelected && !isThisCorrect) {
+                            optionStyle = 'option-wrong text-rose-200 font-semibold';
+                            iconIndicator = `
+                                <span class="w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center text-white text-xs">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </span>
+                            `;
+                        } else {
+                            optionStyle = 'bg-slate-900/40 border-slate-800 text-slate-500 opacity-65';
+                        }
+                    }
+
+                    return `
+                        <button 
+                            type="button"
+                            ${isSubmitted ? 'disabled' : `onclick="selectOption(${q.id}, '${opt}')"`}
+                            class="option-btn w-full p-4 rounded-xl border ${optionStyle} flex items-center justify-between gap-3 text-left question-ltr"
+                        >
+                            <div class="flex items-center gap-3">
+                                ${iconIndicator}
+                                <span class="text-sm sm:text-base tracking-wide">${opt}</span>
+                            </div>
+                            ${isSubmitted && isThisCorrect ? '<span class="text-[11px] font-cairo bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md">الإجابة الصحيحة</span>' : ''}
+                            ${isSubmitted && isThisSelected && !isThisCorrect ? '<span class="text-[11px] font-cairo bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-md">اختيارك</span>' : ''}
+                        </button>
+                    `;
+                }).join('');
+
+                // SVG Drawing Block if present
+                const svgBlockHTML = q.svg ? `
+                    <div class="chem-canvas rounded-2xl p-4 sm:p-6 my-3 relative overflow-hidden">
+                        <div class="flex items-center justify-between text-[11px] text-sky-300/80 mb-2 font-inter">
+                            <span><i class="fa-solid fa-atom mr-1"></i> Chemical Structure (${q.badge})</span>
+                            <span>CIP Priority Rules (E / Z)</span>
+                        </div>
+                        ${q.svg}
+                    </div>
+                ` : '';
+
+                // Explanation Block (Strictly rendered ONLY when isSubmitted === true)
+                const explanationHTML = isSubmitted ? `
+                    <div class="mt-5 p-4 sm:p-5 rounded-xl bg-slate-900/95 border-r-4 border-purple-500 text-slate-200 space-y-1.5 shadow-inner">
+                        <div class="flex items-center gap-2 text-purple-300 font-bold text-xs sm:text-sm">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                            <span>التفسير العلمي (Explanation):</span>
+                        </div>
+                        <p class="text-xs sm:text-sm leading-relaxed text-slate-300">
+                            ${q.explanation}
+                        </p>
+                    </div>
+                ` : '';
+
+                const cardHTML = `
+                    <article id="question-card-${q.id}" class="glass-card rounded-2xl p-5 sm:p-7 border ${cardBorderClass} transition-all duration-300">
+                        <!-- Top Meta Row -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-700/60">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/30 to-pink-500/30 border border-purple-400/40 flex items-center justify-center font-bold text-sm text-purple-200 font-inter">
+                                    ${index + 1}
+                                </span>
+                                <span class="text-xs font-semibold text-slate-400">
+                                    ${q.type === 'tf' ? 'سؤال صح أم خطأ (True / False)' : 'سؤال اختيار من متعدد ورسمة (Configuration)'}
+                                </span>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                ${statusBadgeHTML}
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-pink-300 border border-pink-500/30 font-inter">
+                                    <i class="fa-regular fa-file-lines mr-1"></i>${q.badge}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Question Text (LTR English) -->
+                        <h3 class="question-ltr text-base sm:text-lg font-bold text-white mb-4 leading-relaxed">
+                            ${q.question}
+                        </h3>
+
+                        <!-- Optional Chemical SVG Structure -->
+                        ${svgBlockHTML}
+
+                        <!-- Options Grid -->
+                        <div class="grid ${gridColsClass} gap-3 mt-4">
+                            ${optionsHTML}
+                        </div>
+
+                        <!-- Explanation (Hidden until submitted) -->
+                        ${explanationHTML}
+                    </article>
+                `;
+
+                container.insertAdjacentHTML('beforeend', cardHTML);
+            });
+
+            updateProgressUI();
+        }
+
+        // ==========================================
+        // Interaction Handlers
+        // ==========================================
+        function selectOption(questionId, optionValue) {
+            if (isSubmitted) return;
+            userAnswers[questionId] = optionValue;
+
+            // Hide unanswered warning if open
+            document.getElementById('unanswered-warning').classList.add('hidden');
+
+            renderQuestions();
+        }
+
+        function updateProgressUI() {
+            const total = questionsList.length;
+            const answeredCount = Object.keys(userAnswers).length;
+            const percentage = Math.round((answeredCount / total) * 100);
+
+            document.getElementById('sticky-progress-bar').style.width = `${percentage}%`;
+            document.getElementById('sticky-progress-text').textContent = `${answeredCount} / ${total}`;
+
+            document.getElementById('header-progress-bar').style.width = `${percentage}%`;
+            document.getElementById('header-progress-label').textContent = `تمت الإجابة على ${answeredCount} من ${total}`;
+        }
+
+        function handleShuffleQuestions() {
+            // Fisher-Yates Shuffle
+            for (let i = questionsList.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [questionsList[i], questionsList[j]] = [questionsList[j], questionsList[i]];
+            }
+            renderQuestions();
+            showToast('تم خلط ترتيب الأسئلة بنجاح!');
+        }
+
+        function handleSubmitClick() {
+            if (isSubmitted) return;
+
+            const studentNameInput = document.getElementById('student-name');
+            const studentName = studentNameInput ? studentNameInput.value.trim() : '';
+            if (!studentName) {
+                showToast('من فضلك اكتب اسمك أولاً بالأعلى لتسجيل النتيجة! ✍️');
+                studentNameInput.focus();
+                studentNameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                studentNameInput.classList.add('ring-2', 'ring-rose-400');
+                setTimeout(() => studentNameInput.classList.remove('ring-2', 'ring-rose-400'), 2500);
+                return;
+            }
+
+            const total = questionsList.length;
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < total) {
+                const remaining = total - answeredCount;
+                const warningBox = document.getElementById('unanswered-warning');
+                const warningText = document.getElementById('unanswered-warning-text');
+                warningText.textContent = `يتبقى لديك (${remaining}) سؤال لم تقم بالإجابة عليه من أصل ${total}. هل تود استكمال الأسئلة المتبقية أولاً أم إرسال الإجابات الآن؟`;
+                warningBox.classList.remove('hidden');
+                warningBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            finalizeSubmission();
+        }
+
+        function scrollToFirstUnanswered() {
+            document.getElementById('unanswered-warning').classList.add('hidden');
+            const firstUnanswered = questionsList.find(q => userAnswers[q.id] === undefined);
+            if (firstUnanswered) {
+                const card = document.getElementById(`question-card-${firstUnanswered.id}`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.classList.add('ring-2', 'ring-amber-400');
+                    setTimeout(() => card.classList.remove('ring-2', 'ring-amber-400'), 2200);
+                }
+            }
+        }
+
+        function finalizeSubmission() {
+            isSubmitted = true;
+            document.getElementById('unanswered-warning').classList.add('hidden');
+            document.getElementById('submit-section').classList.add('hidden');
+            document.getElementById('post-submit-footer').classList.remove('hidden');
+
+            // Calculate Score
+            let correctCount = 0;
+            questionsList.forEach(q => {
+                if (userAnswers[q.id] === q.correctAnswer) {
+                    correctCount++;
+                }
+            });
+
+            const total = questionsList.length;
+            const wrongCount = total - correctCount;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            // Populate Result Banner
+            const studentName = document.getElementById('student-name').value.trim();
+            const greetingEl = document.getElementById('result-greeting');
+            const subtitleEl = document.getElementById('result-subtitle');
+            const iconEl = document.getElementById('result-icon');
+
+            if (percentage === 100) {
+                greetingEl.textContent = studentName ? `ممتاز يا ${studentName}! علامة كاملة 🎉` : 'ممتاز! علامة كاملة 🎉';
+                subtitleEl.textContent = 'أداء استثنائي! أنت مستعد تماماً لأسئلة المحاضرة الأولى والثانية.';
+                iconEl.className = 'fa-solid fa-crown';
+            } else if (percentage >= 75) {
+                greetingEl.textContent = studentName ? `أحسنت يا ${studentName}! مستوى رائع 👏` : 'أحسنت! مستوى رائع 👏';
+                subtitleEl.textContent = 'نتيجة قوية جداً، راجع التفسير العلمي للأسئلة بالأسفل لتأكيد الفهم.';
+                iconEl.className = 'fa-solid fa-trophy';
+            } else if (percentage >= 50) {
+                greetingEl.textContent = studentName ? `جيد يا ${studentName}، يمكنك تحقيق الأفضل 💪` : 'مستوى جيد، يمكنك تحقيق الأفضل 💪';
+                subtitleEl.textContent = 'راجع الشرح التفصيلي لكل سؤال بالأسفل ثم أعد الاختبار.';
+                iconEl.className = 'fa-solid fa-award';
+            } else {
+                greetingEl.textContent = studentName ? `لا بأس يا ${studentName}، فرصة للتعلم والمراجعة 📚` : 'فرصة ممتازة للتعلم والمراجعة 📚';
+                subtitleEl.textContent = 'اقرأ التفسير العلمي لكل سؤال بالأسفل بعناية ثم جرب إعادة الاختبار.';
+                iconEl.className = 'fa-solid fa-book-open-reader';
+            }
+
+            document.getElementById('result-score-number').textContent = `${correctCount} / ${total}`;
+            document.getElementById('result-percentage').textContent = `${percentage}%`;
+            document.getElementById('result-wrong-count').textContent = `${wrongCount}`;
+
+            const resultSection = document.getElementById('result-section');
+            resultSection.classList.remove('hidden');
+
+            renderQuestions();
+
+            // Smooth scroll to Result Banner
+            setTimeout(() => {
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+
+            // Auto-send results to Google Sheets if configured
+            if (localStorage.getItem('quiz_sheets_url')) {
+                sendResultsToSheets();
+            }
+        }
+
+        function resetQuiz(shouldShuffle = false) {
+            isSubmitted = false;
+            userAnswers = {};
+
+            if (shouldShuffle) {
+                for (let i = questionsList.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [questionsList[i], questionsList[j]] = [questionsList[j], questionsList[i]];
+                }
+            }
+
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('unanswered-warning').classList.add('hidden');
+            document.getElementById('post-submit-footer').classList.add('hidden');
+            document.getElementById('submit-section').classList.remove('hidden');
+
+            renderQuestions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (shouldShuffle) {
+                showToast('تمت إعادة الاختبار مع خلط الأسئلة!');
+            } else {
+                showToast('تمت إعادة ضبط الاختبار بنجاح!');
+            }
+        }
+
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast-msg');
+            const text = document.getElementById('toast-text');
+            text.textContent = message;
+            toast.classList.remove('hidden');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2600);
+        }
+
+
+        // ==========================================
+        // Google Sheets Integration (Student Tracking)
+        // ==========================================
+        // ضع الرابط هنا إذا أردت رفعه على GitHub Pages ليعمل تلقائياً مع جميع الطلاب:
+        const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbycYvQcRVM9jRcLh9OkS9_H1dMPXFq25T-Q0AD2F3M94SbkltOdbTwlw6WQfaYH2F1M/exec";
+
+        function setupGoogleSheets() {
+            const modal = document.getElementById('sheets-setup-modal');
+            const saved = localStorage.getItem('quiz_sheets_url') || DEFAULT_SHEETS_URL;
+            const input = document.getElementById('sheets-url-input');
+            if (input && saved) input.value = saved;
+            modal.classList.remove('hidden');
+        }
+
+        function closeSetupModal() {
+            document.getElementById('sheets-setup-modal').classList.add('hidden');
+        }
+
+        function saveGoogleSheetsURL() {
+            const url = document.getElementById('sheets-url-input').value.trim();
+            if (url) {
+                localStorage.setItem('quiz_sheets_url', url);
+                closeSetupModal();
+                showToast('تم حفظ رابط Google Sheets بنجاح! ✅');
+            }
+        }
+
+        function sendResultsToSheets() {
+            const sheetsURL = localStorage.getItem('quiz_sheets_url') || DEFAULT_SHEETS_URL;
+            if (!sheetsURL) {
+                setupGoogleSheets();
+                return;
+            }
+
+            const studentName = document.getElementById('student-name').value.trim() || 'مجهول';
+            const total = questionsList.length;
+            let correctCount = 0;
+            const mistakes = [];
+
+            questionsList.forEach(q => {
+                const answer = userAnswers[q.id];
+                if (answer === q.correctAnswer) {
+                    correctCount++;
+                } else {
+                    mistakes.push({
+                        question: q.question.substring(0, 80),
+                        studentAnswer: answer || 'لم يجب',
+                        correctAnswer: q.correctAnswer
+                    });
+                }
+            });
+
+            const percentage = Math.round((correctCount / total) * 100);
+            const mistakesText = mistakes.map(m => `Q: ${m.question} | Student: ${m.studentAnswer} | Correct: ${m.correctAnswer}`).join(' || ');
+            const timestamp = new Date().toLocaleString('ar-EG');
+
+            const data = {
+                studentName: studentName,
+                score: `${correctCount}/${total}`,
+                percentage: `${percentage}%`,
+                correctCount: correctCount,
+                wrongCount: total - correctCount,
+                mistakes: mistakesText || 'لا يوجد أخطاء - علامة كاملة!',
+                timestamp: timestamp
+            };
+
+            // Send to Google Sheets via Apps Script
+            const formData = new FormData();
+            Object.keys(data).forEach(key => formData.append(key, data[key]));
+
+            fetch(sheetsURL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            }).then(() => {
+                showToast('تم إرسال النتيجة بنجاح! ✅ يمكنك رؤية النتائج في Google Sheets');
+            }).catch(err => {
+                showToast('حدث خطأ في الإرسال. تأكد من رابط Google Sheets.');
+                console.error('Sheets error:', err);
+            });
+        }
+
+        // Initialize Quiz on Load
+        window.onload = function () {
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>
