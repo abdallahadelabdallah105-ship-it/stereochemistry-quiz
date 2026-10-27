@@ -198,7 +198,7 @@
                 <div class="pt-2 grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
                     <div class="sm:col-span-7 space-y-1.5">
                         <label for="student-name" class="block text-xs sm:text-sm font-semibold text-slate-300">
-                            اسم الطالب / الطالبة <span class="text-rose-400 font-normal">(مطلوب للتتبع)</span>
+                            اسم الطالب / الطالبة <span class="text-rose-400 font-normal">(مطلوب)</span>
                         </label>
                         <div class="relative">
                             <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 pointer-events-none">
@@ -337,73 +337,10 @@
     </main>
 
 
-    <!-- Google Sheets Setup Modal -->
-    <div id="sheets-setup-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-        <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-lg w-full space-y-5 border-2 border-purple-500/40">
-            <div class="flex items-center justify-between">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-link text-purple-400"></i>
-                    ربط Google Sheets لتتبع النتائج
-                </h3>
-                <button onclick="closeSetupModal()" class="text-slate-400 hover:text-white transition">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-
-            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 text-xs sm:text-sm text-slate-300 space-y-3">
-                <p class="font-bold text-purple-300"><i class="fa-solid fa-circle-info mr-1"></i> خطوات الإعداد (مرة واحدة فقط):</p>
-                <ol class="list-decimal list-inside space-y-2 text-slate-300" style="direction: rtl;">
-                    <li>افتح <a href="https://docs.google.com/spreadsheets" target="_blank" class="text-purple-400 underline hover:text-purple-300">Google Sheets</a> وأنشئ شيت جديد.</li>
-                    <li>في الصف الأول اكتب العناوين التالية:
-                        <code class="text-xs bg-slate-800 px-2 py-0.5 rounded text-pink-300 font-inter" dir="ltr">studentName | score | percentage | correctCount | wrongCount | mistakes | timestamp</code>
-                    </li>
-                    <li>من القائمة اضغط <strong class="text-white">Extensions → Apps Script</strong>.</li>
-                    <li>امسح الكود الموجود والصق الكود ده:
-                        <pre class="mt-2 bg-slate-950 p-3 rounded-lg text-[10px] sm:text-xs text-green-300 font-inter overflow-x-auto" dir="ltr"><code>function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  sheet.appendRow([
-    e.parameter.studentName,
-    e.parameter.score,
-    e.parameter.percentage,
-    e.parameter.correctCount,
-    e.parameter.wrongCount,
-    e.parameter.mistakes,
-    e.parameter.timestamp
-  ]);
-  return ContentService.createTextOutput("OK");
-}</code></pre>
-                    </li>
-                    <li>اضغط <strong class="text-white">Deploy → New Deployment</strong> → اختار <strong class="text-white">Web app</strong> → Execute as: <strong>Me</strong> → Who has access: <strong>Anyone</strong> → Deploy.</li>
-                    <li>انسخ الرابط الي ظهرلك (Web app URL) والصقه هنا تحت.</li>
-                </ol>
-            </div>
-
-            <div class="space-y-2">
-                <label class="text-sm font-semibold text-slate-300">رابط Google Apps Script Web App:</label>
-                <input 
-                    type="url" 
-                    id="sheets-url-input" value="https://script.google.com/macros/s/AKfycbycYvQcRVM9jRcLh9OkS9_H1dMPXFq25T-Q0AD2F3M94SbkltOdbTwlw6WQfaYH2F1M/exec" 
-                    placeholder="https://script.google.com/macros/s/..../exec"
-                    class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition font-inter"
-                    dir="ltr"
-                >
-            </div>
-
-            <div class="flex items-center justify-end gap-3 pt-2">
-                <button onclick="closeSetupModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600 text-sm font-semibold transition">
-                    إلغاء
-                </button>
-                <button onclick="saveGoogleSheetsURL()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm shadow-lg transition">
-                    <i class="fa-solid fa-check mr-1"></i> حفظ الرابط
-                </button>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Admin: Google Sheets Setup Button (Fixed Bottom-Right) -->
-    <button onclick="setupGoogleSheets()" class="fixed bottom-5 right-5 z-40 w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-xl shadow-purple-600/30 flex items-center justify-center transition hover:scale-110 active:scale-95" title="إعداد Google Sheets لتتبع النتائج">
-        <i class="fa-solid fa-database text-lg"></i>
-    </button>
+    
 
     <!-- Send Results Button (shown in result section) - we add it via JS after submit -->
 
