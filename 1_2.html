@@ -1072,33 +1072,9 @@
         // ضع الرابط هنا إذا أردت رفعه على GitHub Pages ليعمل تلقائياً مع جميع الطلاب:
         const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbycYvQcRVM9jRcLh9OkS9_H1dMPXFq25T-Q0AD2F3M94SbkltOdbTwlw6WQfaYH2F1M/exec";
 
-        function setupGoogleSheets() {
-            const modal = document.getElementById('sheets-setup-modal');
-            const saved = localStorage.getItem('quiz_sheets_url') || DEFAULT_SHEETS_URL;
-            const input = document.getElementById('sheets-url-input');
-            if (input && saved) input.value = saved;
-            modal.classList.remove('hidden');
-        }
-
-        function closeSetupModal() {
-            document.getElementById('sheets-setup-modal').classList.add('hidden');
-        }
-
-        function saveGoogleSheetsURL() {
-            const url = document.getElementById('sheets-url-input').value.trim();
-            if (url) {
-                localStorage.setItem('quiz_sheets_url', url);
-                closeSetupModal();
-                showToast('تم حفظ رابط Google Sheets بنجاح! ✅');
-            }
-        }
-
         function sendResultsToSheets() {
-            const sheetsURL = localStorage.getItem('quiz_sheets_url') || DEFAULT_SHEETS_URL;
-            if (!sheetsURL) {
-                setupGoogleSheets();
-                return;
-            }
+            const sheetsURL = DEFAULT_SHEETS_URL;
+            if (!sheetsURL) return;
 
             const studentName = document.getElementById('student-name').value.trim() || 'مجهول';
             const total = questionsList.length;
