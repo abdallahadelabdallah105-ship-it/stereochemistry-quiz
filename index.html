@@ -184,6 +184,51 @@
                     </p>
                 </div>
 
+                
+                <!-- Quiz Selection Switcher -->
+                <div class="p-3 rounded-2xl bg-slate-900/90 border border-purple-500/30 shadow-inner space-y-2.5">
+                    <div class="flex items-center justify-between text-xs font-bold text-slate-300 px-1">
+                        <span class="flex items-center gap-1.5 text-purple-300">
+                            <i class="fa-solid fa-layer-group"></i>
+                            اختر المحاضرة للاختبار:
+                        </span>
+                        <span class="text-[11px] text-slate-400">يمكنك التبديل في أي وقت</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div class="p-3 rounded-xl bg-gradient-to-r from-purple-600/30 via-fuchsia-600/20 to-pink-600/20 border-2 border-purple-500/80 text-white shadow-lg shadow-purple-500/10 flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white flex items-center justify-center font-bold text-xs shadow-md shadow-purple-500/30">
+                                    1-2
+                                </div>
+                                <div>
+                                    <div class="text-xs sm:text-sm font-bold text-white">المحاضرة الأولى والثانية</div>
+                                    <div class="text-[11px] text-purple-200">15 سؤال • CIP Rules, E/Z, Cis/Trans</div>
+                                </div>
+                            </div>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/40 text-purple-200 border border-purple-400/50 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-check text-green-400"></i>
+                                <span>الحالي</span>
+                            </span>
+                        </div>
+
+                        <a href="3_4.html" class="p-3 rounded-xl bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 hover:border-purple-400/50 text-slate-300 transition flex items-center justify-between group active:scale-[0.98]">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-lg bg-slate-700/80 group-hover:bg-purple-600/30 text-purple-300 flex items-center justify-center font-bold text-xs transition">
+                                    3-4
+                                </div>
+                                <div>
+                                    <div class="text-xs sm:text-sm font-bold text-slate-200 group-hover:text-white transition">المحاضرة الثالثة والرابعة</div>
+                                    <div class="text-[11px] text-slate-400">24 سؤال • Optical Activity, Meso, R/S</div>
+                                </div>
+                            </div>
+                            <span class="text-xs text-slate-400 group-hover:text-purple-300 transition px-2 py-1 rounded-lg bg-slate-900/60 flex items-center gap-1">
+                                <span>ابدأ</span>
+                                <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Notice Pill -->
                 <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-700/80 flex items-start gap-3 text-xs sm:text-sm text-slate-300">
                     <i class="fa-solid fa-circle-info text-purple-400 mt-1 text-base"></i>
@@ -1070,7 +1115,9 @@
             const sheetsURL = DEFAULT_SHEETS_URL;
             if (!sheetsURL) return;
 
-            const studentName = document.getElementById('student-name').value.trim() || 'مجهول';
+            const studentNameInput = document.getElementById('student-name');
+            const rawName = studentNameInput ? studentNameInput.value.trim() : '';
+            const studentName = (rawName || 'مجهول') + ' (محاضرة 1 و 2)';
             const total = questionsList.length;
             let correctCount = 0;
             const mistakes = [];

@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الكيمياء الفراغية (Stereochemistry Quiz - Lec 3 & 4)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#152033',
+                            900: '#0F172A',
+                            950: '#090E1A',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            background-color: #0F172A;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.14) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(56, 189, 248, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #F8FAFC;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-sticky {
+            background: rgba(15, 23, 42, 0.90);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.25);
+        }
+
+        .question-ltr {
+            font-family: 'Inter', sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .option-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            border-color: rgba(168, 85, 247, 0.5);
+            background: rgba(51, 65, 85, 0.6);
+        }
+
+        .option-selected {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.22) 0%, rgba(236, 72, 153, 0.22) 100%) !important;
+            border-color: #A855F7 !important;
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.4), 0 4px 15px -3px rgba(168, 85, 247, 0.25);
+        }
+
+        .option-correct {
+            background: rgba(16, 185, 129, 0.18) !important;
+            border-color: #10B981 !important;
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4);
+        }
+
+        .option-wrong {
+            background: rgba(239, 68, 68, 0.18) !important;
+            border-color: #EF4444 !important;
+            box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
+        }
+
+        .chem-canvas {
+            background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%);
+            border: 1px solid rgba(56, 189, 248, 0.22);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.45);
+        }
+
+        .filter-tab-active {
+            background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            color: #FFFFFF;
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B5CF6;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20 selection:bg-purple-500 selection:text-white">
+
+    <!-- Sticky Progress Top Bar -->
+    <div class="sticky top-0 z-40 glass-sticky py-3 px-4 shadow-lg">
+        <div class="max-w-3xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-md shadow-purple-500/20">
+                    <i class="fa-solid fa-atom text-white text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="text-xs sm:text-sm font-bold text-slate-100 leading-tight">Stereochemistry Quiz (Lec 3 & 4)</h2>
+                    <p class="text-[11px] text-slate-400">النشاط الضوئي وتسمية R/S و D/L</p>
+                </div>
+            </div>
+
+            <!-- Live Progress Indicator -->
+            <div class="flex items-center gap-3 flex-1 max-w-xs sm:max-w-sm mr-auto sm:mr-0">
+                <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700">
+                    <div id="sticky-progress-bar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="sticky-progress-text" class="text-xs font-bold text-purple-300 whitespace-nowrap font-inter">0 / 24</span>
+            </div>
+
+            <!-- Shuffle Action Button -->
+            <button id="shuffle-top-btn" onclick="handleShuffleQuestions()" class="text-xs sm:text-sm font-semibold px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600/80 hover:border-purple-400/60 transition flex items-center gap-2 shadow-sm active:scale-95">
+                <i class="fa-solid fa-shuffle text-pink-400"></i>
+                <span>إعادة خلط الأسئلة <span class="hidden md:inline font-inter text-xs text-slate-400">(Shuffle)</span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container (Google Form Style Column) -->
+    <main class="max-w-3xl mx-auto px-4 pt-6 sm:pt-8 space-y-6">
+
+        <!-- Google Form Header Card -->
+        <section class="glass-card rounded-2xl overflow-hidden relative">
+            <!-- Top Purple-Pink Gradient Banner -->
+            <div class="h-3.5 w-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500"></div>
+            
+            <div class="p-6 sm:p-8 space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        Helwan University • Faculty of Science
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-pink-500/15 text-pink-300 border border-pink-500/30 font-inter">
+                        24 Questions • Lec 3 & Lec 4
+                    </span>
+                </div>
+
+                <div class="space-y-2">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-white via-purple-100 to-pink-200 bg-clip-text text-transparent leading-snug">
+                        اختبار الكيمياء الفراغية (Stereochemistry Quiz - Lec 3 & 4)
+                    </h1>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        تغطية شاملة لأسئلة الامتحانات على المحاضرة الثالثة والرابعة: النشاط الضوئي (Optical Activity)، الكيرالية (Chiral Centers)، مستوى التماثل (Plane of Symmetry)، مركبات الـ Meso، الخليط الراسيمي (Racemic Mixture)، وتسمية (R / S) و (D / L).
+                    </p>
+                </div>
+
+                
+                <!-- Quiz Selection Switcher -->
+                <div class="p-3 rounded-2xl bg-slate-900/90 border border-purple-500/30 shadow-inner space-y-2.5">
+                    <div class="flex items-center justify-between text-xs font-bold text-slate-300 px-1">
+                        <span class="flex items-center gap-1.5 text-purple-300">
+                            <i class="fa-solid fa-layer-group"></i>
+                            اختر المحاضرة للاختبار:
+                        </span>
+                        <span class="text-[11px] text-slate-400">يمكنك التبديل في أي وقت</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <a href="index.html" class="p-3 rounded-xl bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 hover:border-purple-400/50 text-slate-300 transition flex items-center justify-between group active:scale-[0.98]">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-lg bg-slate-700/80 group-hover:bg-purple-600/30 text-purple-300 flex items-center justify-center font-bold text-xs transition">
+                                    1-2
+                                </div>
+                                <div>
+                                    <div class="text-xs sm:text-sm font-bold text-slate-200 group-hover:text-white transition">المحاضرة الأولى والثانية</div>
+                                    <div class="text-[11px] text-slate-400">15 سؤال • CIP Rules, E/Z, Cis/Trans</div>
+                                </div>
+                            </div>
+                            <span class="text-xs text-slate-400 group-hover:text-purple-300 transition px-2 py-1 rounded-lg bg-slate-900/60 flex items-center gap-1">
+                                <span>ابدأ</span>
+                                <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                            </span>
+                        </a>
+
+                        <div class="p-3 rounded-xl bg-gradient-to-r from-purple-600/30 via-fuchsia-600/20 to-pink-600/20 border-2 border-purple-500/80 text-white shadow-lg shadow-purple-500/10 flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white flex items-center justify-center font-bold text-xs shadow-md shadow-purple-500/30">
+                                    3-4
+                                </div>
+                                <div>
+                                    <div class="text-xs sm:text-sm font-bold text-white">المحاضرة الثالثة والرابعة</div>
+                                    <div class="text-[11px] text-purple-200">24 سؤال • Optical Activity, Meso, R/S</div>
+                                </div>
+                            </div>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/40 text-purple-200 border border-purple-400/50 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-check text-green-400"></i>
+                                <span>الحالي</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notice Pill -->
+                <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-700/80 flex items-start gap-3 text-xs sm:text-sm text-slate-300">
+                    <i class="fa-solid fa-shield-halved text-purple-400 mt-1 text-base"></i>
+                    <div>
+                        <span class="font-bold text-white">تعليمات الاختبار:</span>
+                        الأسئلة معروضة بترتيب عشوائي من ورق الامتحانات مباشرة.
+                        <span class="text-pink-300 font-semibold">تم إخفاء الإجابات الصحيحة والشرح العلمي تماماً أثناء الحل، وستظهر بالتفصيل فور الضغط على زر "إرسال الإجابات وعرض النتيجة" في نهاية النموذج.</span>
+                    </div>
+                </div>
+
+                <!-- Student Name Input & Progress Summary -->
+                <div class="pt-2 grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
+                    <div class="sm:col-span-7 space-y-1.5">
+                        <label for="student-name" class="block text-xs sm:text-sm font-semibold text-slate-300">
+                            اسم الطالب / الطالبة <span class="text-rose-400 font-normal">(مطلوب)</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 pointer-events-none">
+                                <i class="fa-regular fa-user"></i>
+                            </span>
+                            <input 
+                                type="text" 
+                                id="student-name" 
+                                placeholder="اكتب اسمك هنا ليظهر في شهادة النتيجة..."
+                                class="w-full pr-10 pl-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-5 bg-slate-900/80 p-3 rounded-xl border border-slate-700/80 flex flex-col justify-between">
+                        <div class="flex items-center justify-between text-xs mb-1.5">
+                            <span class="text-slate-400 font-medium">نسبة الإنجاز:</span>
+                            <span id="header-progress-label" class="font-bold text-purple-300">تمت الإجابة على 0 من 24</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div id="header-progress-bar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
+                    <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-filter text-purple-400"></i> تصفية الأسئلة:
+                    </span>
+                    <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                        <button id="tab-all" onclick="setFilter('all')" class="filter-tab-active flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-700 transition">
+                            كل الأسئلة (24 سؤال)
+                        </button>
+                        <button id="tab-mcq" onclick="setFilter('mcq')" class="bg-slate-900/80 text-slate-300 hover:bg-slate-800 flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-700 transition">
+                            أسئلة الرسومات R/S (6 أسئلة)
+                        </button>
+                        <button id="tab-tf" onclick="setFilter('tf')" class="bg-slate-900/80 text-slate-300 hover:bg-slate-800 flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-700 transition">
+                            أسئلة الصح والغلط (18 سؤال)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Result Banner (Hidden until quiz is submitted) -->
+        <section id="result-section" class="hidden glass-card rounded-2xl overflow-hidden border-2 border-purple-500/50 transition-all duration-500">
+            <div class="bg-gradient-to-r from-purple-600/30 via-fuchsia-600/25 to-pink-600/30 p-6 sm:p-8 text-center space-y-5">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/30 text-white text-2xl mb-1">
+                    <i id="result-icon" class="fa-solid fa-trophy"></i>
+                </div>
+
+                <div class="space-y-1">
+                    <h2 id="result-greeting" class="text-xl sm:text-2xl font-extrabold text-white">نتيجة الاختبار النهائية</h2>
+                    <p id="result-subtitle" class="text-sm text-slate-300">راجِع إجاباتك والتفسير العلمي المفصل لكل سؤال بالأسفل طبقاً للمحاضرة 3 و 4</p>
+                </div>
+
+                <!-- Score Boxes -->
+                <div class="flex flex-wrap justify-center gap-4 pt-2">
+                    <div class="bg-slate-900/90 border border-slate-700 px-6 py-4 rounded-2xl min-w-[140px]">
+                        <div class="text-xs text-slate-400 mb-1">الدرجة الكلية</div>
+                        <div id="result-score-number" class="text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-inter">
+                            0 / 24
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 border border-slate-700 px-6 py-4 rounded-2xl min-w-[140px]">
+                        <div class="text-xs text-slate-400 mb-1">النسبة المئوية</div>
+                        <div id="result-percentage" class="text-3xl font-extrabold text-emerald-400 font-inter">
+                            0%
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 border border-slate-700 px-6 py-4 rounded-2xl min-w-[140px]">
+                        <div class="text-xs text-slate-400 mb-1">الإجابات الخاطئة</div>
+                        <div id="result-wrong-count" class="text-3xl font-extrabold text-rose-400 font-inter">
+                            0
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Retake & Shuffle Buttons -->
+                <div class="pt-3 flex flex-wrap items-center justify-center gap-3">
+                    <button onclick="resetQuiz(false)" class="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition flex items-center gap-2 active:scale-95">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>إعادة الاختبار (Retake Quiz)</span>
+                    </button>
+                    <button onclick="resetQuiz(true)" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-sm transition flex items-center gap-2 active:scale-95">
+                        <i class="fa-solid fa-shuffle text-pink-400"></i>
+                        <span>إعادة مع خلط الأسئلة</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Questions Container -->
+        <div id="questions-container" class="space-y-5">
+            <!-- Dynamically populated by JavaScript -->
+        </div>
+
+        <!-- Warning Message for Unanswered Questions -->
+        <div id="unanswered-warning" class="hidden glass-card rounded-2xl p-5 border-2 border-amber-500/60 bg-amber-950/30 text-amber-200 space-y-3">
+            <div class="flex items-start gap-3">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xl mt-0.5"></i>
+                <div class="space-y-1 flex-1">
+                    <h4 class="font-bold text-sm sm:text-base text-amber-300">تنبيه: لم تقم بالإجابة على جميع الأسئلة!</h4>
+                    <p id="unanswered-warning-text" class="text-xs sm:text-sm text-amber-100/90">
+                        يتبقى لديك بعض الأسئلة بدون إجابة. هل ترغب في استكمالها أولاً أم إرسال الاختبار وتصحيحه الآن؟
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center justify-end gap-3 pt-1">
+                <button onclick="scrollToFirstUnanswered()" class="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs sm:text-sm font-semibold transition">
+                    الذهاب لأول سؤال غير مجاب
+                </button>
+                <button onclick="finalizeSubmission()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs sm:text-sm font-bold shadow-md transition">
+                    إرسال وعرض النتيجة على أي حال
+                </button>
+            </div>
+        </div>
+
+        <!-- Submit & Footer Action Section -->
+        <section id="submit-section" class="glass-card rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-center sm:text-right space-y-1">
+                <h3 class="font-bold text-slate-100 text-base">هل انتهيت من حل جميع الأسئلة؟</h3>
+                <p class="text-xs text-slate-400">اضغط على زر الإرسال لتصحيح الاختبار وإظهار الشرح التفصيلي لقواعد (R/S) والنشاط الضوئي.</p>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
+                <button id="submit-quiz-btn" onclick="handleSubmitClick()" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-purple-600/25 transition flex items-center justify-center gap-2.5 active:scale-95">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>إرسال الإجابات وعرض النتيجة (Submit Quiz)</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Post-Submit Bottom Retake Bar -->
+        <section id="post-submit-footer" class="hidden glass-card rounded-2xl p-6 text-center space-y-4">
+            <p class="text-sm text-slate-300">انتهيت من مراجعة التصحيح والتفسيرات العلمية؟ يمكنك إعادة الاختبار لتثبيت المعلومة!</p>
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="resetQuiz(false)" class="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm shadow-lg transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>إعادة الاختبار (Retake Quiz)</span>
+                </button>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold text-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-up"></i>
+                    <span>العودة لأعلى الصفحة</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Custom Toast Notification -->
+    <div id="toast-msg" class="fixed bottom-5 left-5 z-50 hidden transform transition-all duration-300">
+        <div class="glass-card px-4 py-3 rounded-xl border border-purple-500/50 shadow-2xl flex items-center gap-3 text-sm text-white">
+            <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i>
+            <span id="toast-text">تم خلط الأسئلة بنجاح!</span>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // ChemDraw-Style High-Contrast SVG Drawings for Compounds A, B, C, D, E, F
+        // =========================================================================
+        const svgDrawings = {
+            // Compound (A): Newman Projection
+            // Front carbon (central vertex): Up = H, Down-Left = HO, Down-Right = F
+            // Back carbon (circle): Up-Left = H, Up-Right = H, Down = H (i.e. -CH3 back carbon)
+            compoundA: `
+                <svg viewBox="0 0 420 245" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="28" y="122" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">A</text>
+                    
+                    <!-- Back Carbon Bonds (starting from circle edge r=46 around center 215,120) -->
+                    <!-- Up-Left Back Bond to H -->
+                    <line x1="175" y1="97" x2="138" y2="75" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="122" y="75" fill="#CBD5E1" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">H</text>
+
+                    <!-- Up-Right Back Bond to H -->
+                    <line x1="255" y1="97" x2="292" y2="75" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="308" y="75" fill="#CBD5E1" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">H</text>
+
+                    <!-- Down Back Bond to H -->
+                    <line x1="215" y1="166" x2="215" y2="205" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+                    <text x="215" y="228" fill="#CBD5E1" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">H</text>
+
+                    <!-- Newman Back Carbon Circle -->
+                    <circle cx="215" cy="120" r="46" fill="#0F172A" stroke="#E2E8F0" stroke-width="3.2"/>
+
+                    <!-- Front Carbon Bonds (meeting at center 215,120) -->
+                    <!-- Up Front Bond to H -->
+                    <line x1="215" y1="120" x2="215" y2="48" stroke="#38BDF8" stroke-width="3.4" stroke-linecap="round"/>
+                    <text x="215" y="38" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">H</text>
+
+                    <!-- Down-Left Front Bond to HO -->
+                    <line x1="215" y1="120" x2="152" y2="156" stroke="#38BDF8" stroke-width="3.4" stroke-linecap="round"/>
+                    <text x="128" y="172" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">HO</text>
+
+                    <!-- Down-Right Front Bond to F -->
+                    <line x1="215" y1="120" x2="278" y2="156" stroke="#38BDF8" stroke-width="3.4" stroke-linecap="round"/>
+                    <text x="296" y="172" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">F</text>
+
+                    <circle cx="215" cy="120" r="3.5" fill="#38BDF8"/>
+                </svg>
+            `,
+
+            // Compound (B): Fischer Projection (+)
+            // Top = H, Bottom = Br, Left = HOH2C, Right = CH2CH3
+            compoundB: `
+                <svg viewBox="0 0 420 220" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="28" y="115" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">B</text>
+
+                    <!-- Fischer Cross Lines -->
+                    <!-- Vertical Line (going behind page) -->
+                    <line x1="215" y1="48" x2="215" y2="172" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <!-- Horizontal Line (coming out of page) -->
+                    <line x1="145" y1="110" x2="285" y2="110" stroke="#38BDF8" stroke-width="3.2" stroke-linecap="round"/>
+
+                    <!-- Top Group: H -->
+                    <text x="215" y="36" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">H</text>
+
+                    <!-- Bottom Group: Br -->
+                    <text x="215" y="198" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">Br</text>
+
+                    <!-- Left Group: HOH2C -->
+                    <text x="136" y="116" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="end">
+                        HOH<tspan dy="5" font-size="13">2</tspan><tspan dy="-5">C</tspan>
+                    </text>
+
+                    <!-- Right Group: CH2CH3 -->
+                    <text x="294" y="116" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="start">
+                        CH<tspan dy="5" font-size="13">2</tspan><tspan dy="-5">CH</tspan><tspan dy="5" font-size="13">3</tspan>
+                    </text>
+                </svg>
+            `,
+
+            // Compound (C): Newman Projection
+            // Front carbon (central vertex): Up = CH3, Down-Left = H, Down-Right = H (Front carbon is -CH2CH3)
+            // Back carbon (circle): Up-Left = H3C, Up-Right = OH, Down = H
+            compoundC: `
+                <svg viewBox="0 0 420 245" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="28" y="122" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">C</text>
+
+                    <!-- Back Carbon Bonds (starting from circle edge r=46 around center 215,120) -->
+                    <!-- Up-Left Back Bond to H3C -->
+                    <line x1="175" y1="97" x2="136" y2="74" stroke="#38BDF8" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="108" y="74" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">
+                        H<tspan dy="5" font-size="13">3</tspan><tspan dy="-5">C</tspan>
+                    </text>
+
+                    <!-- Up-Right Back Bond to OH -->
+                    <line x1="255" y1="97" x2="294" y2="74" stroke="#38BDF8" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="318" y="74" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">OH</text>
+
+                    <!-- Down Back Bond to H -->
+                    <line x1="215" y1="166" x2="215" y2="205" stroke="#38BDF8" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="215" y="228" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">H</text>
+
+                    <!-- Newman Back Carbon Circle -->
+                    <circle cx="215" cy="120" r="46" fill="#0F172A" stroke="#E2E8F0" stroke-width="3.2"/>
+
+                    <!-- Front Carbon Bonds (meeting at center 215,120) -->
+                    <!-- Up Front Bond to CH3 -->
+                    <line x1="215" y1="120" x2="215" y2="48" stroke="#94A3B8" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="220" y="38" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">
+                        CH<tspan dy="5" font-size="13">3</tspan>
+                    </text>
+
+                    <!-- Down-Left Front Bond to H -->
+                    <line x1="215" y1="120" x2="152" y2="156" stroke="#94A3B8" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="136" y="172" fill="#CBD5E1" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">H</text>
+
+                    <!-- Down-Right Front Bond to H -->
+                    <line x1="215" y1="120" x2="278" y2="156" stroke="#94A3B8" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="294" y="172" fill="#CBD5E1" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">H</text>
+
+                    <circle cx="215" cy="120" r="3.5" fill="#E2E8F0"/>
+                </svg>
+            `,
+
+            // Compound (D): Flying Wedge Projection
+            // Center (205, 115): Top line = OH, Bottom-left line = BrH2C, Solid Wedge (bottom-right) = H, Dashed Wedge (right) = CH3
+            compoundD: `
+                <svg viewBox="0 0 420 220" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="28" y="115" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">D</text>
+
+                    <!-- In-plane Top Bond to OH -->
+                    <line x1="205" y1="115" x2="205" y2="48" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="205" y="38" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">OH</text>
+
+                    <!-- In-plane Bottom-Left Bond to BrH2C -->
+                    <line x1="205" y1="115" x2="145" y2="155" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="135" y="168" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="end">
+                        BrH<tspan dy="5" font-size="13">2</tspan><tspan dy="-5">C</tspan>
+                    </text>
+
+                    <!-- Solid Wedge (Front) to H -->
+                    <polygon points="205,115 224,174 238,168" fill="#38BDF8"/>
+                    <text x="242" y="195" fill="#38BDF8" font-family="Inter, sans-serif" font-weight="800" font-size="20" text-anchor="middle">H</text>
+
+                    <!-- Dashed Wedge (Back) to CH3 -->
+                    <line x1="215" y1="117" x2="217" y2="123" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="226" y1="119" x2="229" y2="127" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="237" y1="121" x2="241" y2="132" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="248" y1="123" x2="253" y2="136" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="259" y1="125" x2="265" y2="141" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="270" y1="127" x2="277" y2="145" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <text x="286" y="144" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="start">
+                        CH<tspan dy="5" font-size="13">3</tspan>
+                    </text>
+                </svg>
+            `,
+
+            // Compound (E): Flying Wedge Projection
+            // Center (195, 115): Top line = CH2CH3, Bottom-left line = H, Solid Wedge (bottom-right) = CH2OH, Dashed Wedge (right) = CH3
+            compoundE: `
+                <svg viewBox="0 0 420 220" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="28" y="115" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">E</text>
+
+                    <!-- In-plane Top Bond to CH2CH3 -->
+                    <line x1="195" y1="115" x2="195" y2="48" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="195" y="38" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">
+                        CH<tspan dy="5" font-size="13">2</tspan><tspan dy="-5">CH</tspan><tspan dy="5" font-size="13">3</tspan>
+                    </text>
+
+                    <!-- In-plane Bottom-Left Bond to H -->
+                    <line x1="195" y1="115" x2="138" y2="155" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="125" y="168" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">H</text>
+
+                    <!-- Solid Wedge (Front) to CH2OH -->
+                    <polygon points="195,115 236,168 248,158" fill="#38BDF8"/>
+                    <text x="252" y="182" fill="#38BDF8" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="start">
+                        CH<tspan dy="5" font-size="13">2</tspan><tspan dy="-5">OH</tspan>
+                    </text>
+
+                    <!-- Dashed Wedge (Back) to CH3 -->
+                    <line x1="206" y1="115" x2="206" y2="122" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="217" y1="114" x2="217" y2="124" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="228" y1="113" x2="228" y2="126" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="239" y1="112" x2="239" y2="128" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="250" y1="111" x2="250" y2="130" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="261" y1="110" x2="261" y2="132" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <text x="272" y="127" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="start">
+                        CH<tspan dy="5" font-size="13">3</tspan>
+                    </text>
+                </svg>
+            `,
+
+            // Compound (F): Flying Wedge Projection
+            // Center (205, 115): Top line = Br, Bottom-left line = HOH2C, Solid Wedge (bottom) = CH3, Dashed Wedge (right) = CH2CH3
+            compoundF: `
+                <svg viewBox="0 0 420 225" class="w-full max-w-[390px] h-auto mx-auto select-none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="28" y="115" fill="#F472B6" font-family="Inter, sans-serif" font-weight="800" font-size="22">F</text>
+
+                    <!-- In-plane Top Bond to Br -->
+                    <line x1="205" y1="115" x2="205" y2="48" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="205" y="38" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="20" text-anchor="middle">Br</text>
+
+                    <!-- In-plane Bottom-Left Bond to HOH2C -->
+                    <line x1="205" y1="115" x2="145" y2="155" stroke="#E2E8F0" stroke-width="3.2" stroke-linecap="round"/>
+                    <text x="136" y="168" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="end">
+                        HOH<tspan dy="5" font-size="13">2</tspan><tspan dy="-5">C</tspan>
+                    </text>
+
+                    <!-- Solid Wedge (Front) to CH3 -->
+                    <polygon points="205,115 216,176 230,172" fill="#38BDF8"/>
+                    <text x="228" y="198" fill="#38BDF8" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="middle">
+                        CH<tspan dy="5" font-size="13">3</tspan>
+                    </text>
+
+                    <!-- Dashed Wedge (Back) to CH2CH3 -->
+                    <line x1="215" y1="118" x2="217" y2="124" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="226" y1="120" x2="229" y2="129" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="237" y1="123" x2="241" y2="134" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="248" y1="126" x2="253" y2="139" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="259" y1="129" x2="265" y2="144" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <line x1="270" y1="132" x2="277" y2="149" stroke="#94A3B8" stroke-width="2.8" stroke-linecap="round"/>
+                    <text x="285" y="150" fill="#F8FAFC" font-family="Inter, sans-serif" font-weight="700" font-size="19" text-anchor="start">
+                        CH<tspan dy="5" font-size="13">2</tspan><tspan dy="-5">CH</tspan><tspan dy="5" font-size="13">3</tspan>
+                    </text>
+                </svg>
+            `
+        };
+
+        // =========================================================================
+        // All 24 Questions Covering Strictly Lecture 3 & Lecture 4
+        // (6 Structure R/S Questions + 18 True/False Questions from Exam 2 & Exam 3)
+        // =========================================================================
+        const initialQuestions = [
+            // --- 6 STRUCTURE QUESTIONS (Compounds A to F) ---
+            {
+                id: 1,
+                type: "mcq",
+                question: "[السؤال رقم 1 في ورقة الرسومات - المركب A] The configuration of Compound (A) is.......",
+                badge: "Exam Sheet B - Q1 (Compound A)",
+                svg: svgDrawings.compoundA,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "B. S",
+                explanation: "الإجابة الصحيحة هي (B. S)؛ في مسقط نيومان (Newman Projection) للمركب A: ذرة الكربون الأمامية هي المركز الكيرالي وتتصل بـ (-F) و (-OH) و (-H)، بينما تمثل الدائرة الخلفية المتصلة بثلاث ذرات هيدروجين مجموعة ميثيل (-CH₃). نرتب الأولوية حسب الوزن الذري (المحاضرة 4): رقم 1 = (-F)، رقم 2 = (-OH)، رقم 3 = (-CH₃ الخلفية)، رقم 4 = (-H الأمامية). الدوران من 1 (F يمين) ← 2 (OH يسار) ← 3 (CH₃) يسير مع عقارب الساعة على الورقة، وبما أن ذرة الهيدروجين (رقم 4) على الذرة الأمامية متجهة نحونا (أمام المستوى)، نعكس النتيجة فتصبح (S)."
+            },
+            {
+                id: 2,
+                type: "mcq",
+                question: "[السؤال رقم 2 في ورقة الرسومات - المركب B] The configuration of Compound (B) is.......",
+                badge: "Exam Sheet B - Q2 (Compound B)",
+                svg: svgDrawings.compoundB,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "A. R",
+                explanation: "الإجابة الصحيحة هي (A. R)؛ المركب B مرسوم بطريقة فيشر (Fischer Projection): نرتب المجموعات حسب الذرة المتصلة مباشرة بالمركز الكيرالي: رقم 1 = (-Br بالأسفل)، رقم 2 = (-CH₂OH باليسار لأن الكربون متصل بـ O)، رقم 3 = (-CH₂CH₃ باليمين لأن الكربون متصل بـ C)، رقم 4 = (-H بالأعلى). طبقاً لقاعدة المحاضرة 4 صـ3: 'لو لقيت أخف ذرة (H) على الخط الرأسي (Vertical) تبقى لورا ونظرتي الطبيعية هي الصح'؛ وبالتحرك من 1 (أسفل) ← 2 (يسار) ← 3 (يمين) نجد الاتجاه مع عقارب الساعة (Clockwise) إذن التسمية (R)."
+            },
+            {
+                id: 3,
+                type: "mcq",
+                question: "[السؤال رقم 3 في ورقة الرسومات - المركب C] The configuration of Compound (C) is.......",
+                badge: "Exam Sheet B - Q3 (Compound C)",
+                svg: svgDrawings.compoundC,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "B. S",
+                explanation: "الإجابة الصحيحة هي (B. S)؛ في مسقط نيومان للمركب C: ذرة الكربون الأمامية متصلة بـ (-CH₃ و H و H) أي أنها تمثل مجموعة إيثيل (-CH₂CH₃)، بينما ذرة الكربون الخلفية (الدائرة) هي المركز الكيرالي وتتصل بـ: رقم 1 = (-OH أعلى اليمين)، رقم 2 = (-CH₂CH₃ الذرة الأمامية)، رقم 3 = (-CH₃ أعلى اليسار)، رقم 4 = (-H بالأسفل). بتتبع الترتيب من 1 ← 2 ← 3 مع مراعاة اتجاه الروابط في الفراغ يكون التوزيع الفراغي للمركب هو (S)."
+            },
+            {
+                id: 4,
+                type: "mcq",
+                question: "[السؤال رقم 4 في ورقة الرسومات - المركب D] The configuration of Compound (D) is.......",
+                badge: "Exam Sheet B - Q4 (Compound D)",
+                svg: svgDrawings.compoundD,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "A. R",
+                explanation: "الإجابة الصحيحة هي (A. R)؛ في المركب D المرسوم بطريقة الـ Flying Wedge: نرتب الأولوية حول ذرة الكربون الكيرالية: رقم 1 = (-OH بالأعلى لأن O عددها الذري 8)، رقم 2 = (-CH₂Br أسفل اليسار لأن C متصلة بـ Br)، رقم 3 = (-CH₃ باليمين لأن C متصلة بـ 3H)، ورقم 4 = (-H). الحركة على الورقة من 1 (أعلى) ← 2 (أسفل يسار) ← 3 (يمين) تسير عكس عقارب الساعة (Anti-clockwise)، وبما أن ذرة الهيدروجين (رقم 4) مرسومة على الرابطة الغامقة (Solid Wedge أي أمام الورقة)، نعكس الاتجاه طبقاً لقاعدة المحاضرة 4 فيصبح المركب (R)."
+            },
+            {
+                id: 5,
+                type: "mcq",
+                question: "[السؤال رقم 5 في ورقة الرسومات - المركب E] The configuration of Compound (E) is.......",
+                badge: "Exam Sheet B - Q5 (Compound E)",
+                svg: svgDrawings.compoundE,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "B. S",
+                explanation: "الإجابة الصحيحة هي (B. S)؛ في المركب E: نرتب الأولويات طبقاً للذرات المتصلة: رقم 1 = (-CH₂OH لأن الكربون متصل بـ O)، رقم 2 = (-CH₂CH₃ بالأعلى لأن الكربون متصل بـ C)، رقم 3 = (-CH₃ المخططة للخلف لأن الكربون متصل بـ 3H)، ورقم 4 = (-H أسفل اليسار). بتطبيق قاعدة اليد/النظر من عكس اتجاه المجموعة الأخف ومراعاة أن مجموعة -CH₂OH (رقم 1) بارزة للأمام (Wedge) ومجموعة -CH₃ (رقم 3) للخلف (Dash)، نجد أن الترتيب الفراغي من 1 ← 2 ← 3 يسير عكس عقارب الساعة أي (S)."
+            },
+            {
+                id: 6,
+                type: "mcq",
+                question: "[السؤال رقم 6 في ورقة الرسومات - المركب F] The configuration of Compound (F) is.......",
+                badge: "Exam Sheet B - Q6 (Compound F)",
+                svg: svgDrawings.compoundF,
+                options: ["A. R", "B. S", "C. Z", "D. E"],
+                correctAnswer: "A. R",
+                explanation: "الإجابة الصحيحة هي (A. R)؛ في المركب F: نرتب المجموعات الأربع: رقم 1 = (-Br بالأعلى)، رقم 2 = (-CH₂OH أسفل اليسار لأن C متصلة بـ O)، رقم 3 = (-CH₂CH₃ باليمين خلف الورقة لأن C متصلة بـ C)، بينما المجموعة الأخف رقم 4 = (-CH₃ بالأسفل على الرابطة الغامقة Wedge أي أمام الورقة). الحركة على الورقة من 1 (Br) ← 2 (HOH₂C) ← 3 (CH₂CH₃) تسير عكس عقارب الساعة، ولأن المجموعة رقم 4 (-CH₃) متجهة للأمام (قدام الورقة)، نعكس النتيجة فتصبح (R)."
+            },
+
+            // --- 18 TRUE / FALSE QUESTIONS (Strictly Lec 3 & Lec 4) ---
+            {
+                id: 7,
+                type: "tf",
+                question: "A molecule with no chiral centers is always optically active.",
+                badge: "Exam 2 - Q1",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ طبقاً للمحاضرة الثالثة، لكي يكون المركب نشطاً ضوئياً (Optically active) يجب أن يحتوي على مركز غير متماثل (Chiral / Asymmetric center) ولا يحتوي على مستوى تماثل، وبالتالي المركب الخالي من المراكز الكيرالية يكون غير نشط ضوئياً (Optically inactive)."
+            },
+            {
+                id: 8,
+                type: "tf",
+                question: "Optical activity is observed in molecules with no chiral centers.",
+                badge: "Exam 3 - Q7",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ النشاط الضوئي (Optical activity) في منهج المحاضرة الثالثة يرتبط بوجود ذرة كربون كيرالية غير متماثلة (Asymmetric / Chiral carbon) تجعل صورة المرآة غير منطبقة على الأصل."
+            },
+            {
+                id: 9,
+                type: "tf",
+                question: "All chiral molecules have a plane of symmetry.",
+                badge: "Exam 3 - Q1",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ العكس تماماً! الجزيئات الكيرالية (Chiral molecules) لا يمكن أن تحتوي على مستوى تماثل (Plane of symmetry)، لأن وجود مستوى التماثل يجعل الجزيء متماثلاً (Achiral) وغير نشط ضوئياً."
+            },
+            {
+                id: 10,
+                type: "tf",
+                question: "Optical activity is observed in molecules with a plane of symmetry.",
+                badge: "Exam 2 - Q7",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ طبقاً للمحاضرة الثالثة صـ3، وجود مستوى تماثل (Plane of symmetry) يقسم المركب إلى نصفين متماثلين فيلغي النشاط الضوئي ويجعل المركب (Optically inactive) مثل مركبات الـ Meso."
+            },
+            {
+                id: 11,
+                type: "tf",
+                question: "A plane of symmetry makes a molecule chiral.",
+                badge: "Exam 3 - Q14",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ وجود مستوى التماثل (Plane of symmetry) يجعل المركب غير كيرالي (Achiral) لأن صورته في المرآة تكون مطابقة له تماماً (Identical)."
+            },
+            {
+                id: 12,
+                type: "tf",
+                question: "Meso compounds are optically inactive.",
+                badge: "Exam 3 - Q3",
+                options: ["True", "False"],
+                correctAnswer: "True",
+                explanation: "صح (True)؛ كما شُرح في نهاية المحاضرة الثالثة صـ3، مركب الـ Meso يحتوي على ذرتي كربون كيراليتين أو أكثر (Chiral centers) ولكنه غير نشط ضوئياً (Optically inactive) بسبب وجود مستوى تماثل داخلي (Plane of symmetry)."
+            },
+            {
+                id: 13,
+                type: "tf",
+                question: "A meso compound is always optically active.",
+                badge: "Exam 2 - Q14",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ مركب الـ Meso يكون دائماً غير نشط ضوئياً (Optically inactive) بالرغم من احتوائه على مراكز كيرالية، وذلك لوجود مستوى تماثل (Plane of symmetry) داخل الجزيء."
+            },
+            {
+                id: 14,
+                type: "tf",
+                question: "Racemic mixtures rotate light to the left.",
+                badge: "Exam 2 - Q4",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ الخليط الراسيمي (Racemic mixture) يتكون من كميات متساوية (50% إلى 50%) من كلا الـ Enantiomers، فيلغي أحدهما دوران الآخر وتكون قراءة جهاز الـ Polarimeter صفراً (لا يحرف الضوء لا لليمين ولا لليسار)."
+            },
+            {
+                id: 15,
+                type: "tf",
+                question: "Racemic mixtures rotate light to the right.",
+                badge: "Exam 3 - Q4",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ الخليط الراسيمي (Racemic mixture) غير نشط ضوئياً (Optically inactive) لأن محصلة زاوية الدوران تساوي صفراً لتساوي نسبتي المتشكلين الضوئيين (50% : 50%)."
+            },
+            {
+                id: 16,
+                type: "tf",
+                question: "Racemic mixtures contain only one enantiomer.",
+                badge: "Exam 2 & 3 - Q16",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ طبقاً لتعريف المحاضرة الثالثة صـ3: 'Racemic mixture is a mixture of equal quantities of two enantiomers (50% to 50%)' أي أنه يحتوي على كلا المتشكلين بنسب متساوية وليس متشكلاً واحداً."
+            },
+            {
+                id: 17,
+                type: "tf",
+                question: "Optical rotation does not depend on concentration.",
+                badge: "Exam 2 - Q18",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ طبقاً للمحاضرة الثالثة صـ2 في شرح جهاز الـ Polarimeter، فإن عدد الجزيئات وتركيز المحلول (Concentration) وطول الأنبوبة (Length) تؤثر بشكل مباشر على زاوية انحراف الضوء المستقطب."
+            },
+            {
+                id: 18,
+                type: "tf",
+                question: "Optical rotation is independent of solution concentration.",
+                badge: "Exam 3 - Q18",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ زاوية الدوران الضوئي المقاسة في الـ Polarimeter تعتمد بشكل أساسي على تركيز المحلول (Concentration) وطول أنبوبة العينة."
+            },
+            {
+                id: 19,
+                type: "tf",
+                question: "Two identical substituents on a tetrahedral carbon make it chiral.",
+                badge: "Exam 2 & 3 - Q10",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ طبقاً للمحاضرة الثالثة صـ1، إذا وُجدت مجموعتان متماثلتان على ذرة الكربون تصبح الذرة متماثلة (Symmetric / Achiral carbon atom) وتنطبق صورتها في المرآة عليها، بينما تشترط الكيرالية وجود 4 مجموعات مختلفة تماماً."
+            },
+            {
+                id: 20,
+                type: "tf",
+                question: "D and L designations can be used for non-chiral molecules.",
+                badge: "Exam 2 - Q9",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ طبقاً للمحاضرة الرابعة صـ1 وصـ4، نظام التسمية (D / L) وكذلك (R / S) يُستخدمان لتسمية المتشكلات الضوئية الكيرالية (Optical Isomers) مثل السكريات (D/L-Glyceraldehyde) ولا يُستخدمان للمركبات غير الكيرالية."
+            },
+            {
+                id: 21,
+                type: "tf",
+                question: "D and L configurations can be applied to all compounds regardless of chirality.",
+                badge: "Exam 3 - Q9",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ تسمية D و L خاصة بالمركبات الكيرالية النشطة ضوئياً (مثل السكريات والأحماض الأمينية) وتعتمد على اتجاه مجموعة OH على ذرة الكربون الكيرالية."
+            },
+            {
+                id: 22,
+                type: "tf",
+                question: "Only trans-isomers rotate plane-polarized light.",
+                badge: "Exam 3 - Q2",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ قدرة المركب على تدوير الضوء المستقطب (Optical activity) تعتمد على كون الجزيء كيرالياً (Chiral) ولا يحتوي على مستوى تماثل، وليست حكراً على متشكلات Trans."
+            },
+            {
+                id: 23,
+                type: "tf",
+                question: "Only molecules with double bonds can show optical activity.",
+                badge: "Exam 3 - Q11",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ النشاط الضوئي يعتمد على وجود مركز كيرالي (Chiral Carbon sp³) محاط بأربع مجموعات مختلفة، ولا يشترط إطلاقاً وجود رابطة مزدوجة."
+            },
+            {
+                id: 24,
+                type: "tf",
+                question: "Only chiral molecules can exhibit geometrical isomerism.",
+                badge: "Exam 2 - Q11",
+                options: ["True", "False"],
+                correctAnswer: "False",
+                explanation: "خطأ (False)؛ التشكل الهندسي (Geometrical isomerism) يعتمد على منع الدوران الحر حول الرابطة المزدوجة أو الحلقة مع وجود مجموعتين مختلفتين على كل كربون، ومعظم الألكينات الهندسية (Cis/Trans) هي مركبات غير كيرالية (Achiral)."
+            }
+        ];
+
+        // ==========================================
+        // State Management
+        // ==========================================
+        let questionsList = [...initialQuestions];
+        let userAnswers = {}; // { questionId: selectedOption }
+        let isSubmitted = false;
+        let currentFilter = 'all'; // 'all' | 'mcq' | 'tf'
+
+        // Helper: Fisher-Yates Shuffle
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+        }
+
+        // ==========================================
+        // Filter Tabs Logic
+        // ==========================================
+        function setFilter(filterType) {
+            currentFilter = filterType;
+            const tabs = {
+                all: document.getElementById('tab-all'),
+                mcq: document.getElementById('tab-mcq'),
+                tf: document.getElementById('tab-tf')
+            };
+
+            Object.keys(tabs).forEach(key => {
+                if (key === filterType) {
+                    tabs[key].className = "filter-tab-active flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-transparent transition";
+                } else {
+                    tabs[key].className = "bg-slate-900/80 text-slate-300 hover:bg-slate-800 flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-700 transition";
+                }
+            });
+
+            renderQuestions();
+        }
+
+        // ==========================================
+        // Render Quiz Questions
+        // ==========================================
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            const filteredQuestions = questionsList.filter(q => {
+                if (currentFilter === 'all') return true;
+                return q.type === currentFilter;
+            });
+
+            filteredQuestions.forEach((q) => {
+                // Keep original index in the shuffled list so numbering stays consistent
+                const overallIndex = questionsList.findIndex(item => item.id === q.id);
+                const selected = userAnswers[q.id];
+                const isAnswered = selected !== undefined;
+
+                // Determine card border after submission
+                let cardBorderClass = 'border-slate-700/80';
+                let statusBadgeHTML = '';
+
+                if (isSubmitted) {
+                    const isCorrect = selected === q.correctAnswer;
+                    if (isCorrect) {
+                        cardBorderClass = 'border-emerald-500/70';
+                        statusBadgeHTML = `
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                                <i class="fa-solid fa-circle-check"></i> إجابة صحيحة
+                            </span>
+                        `;
+                    } else {
+                        cardBorderClass = 'border-rose-500/70';
+                        statusBadgeHTML = `
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                                <i class="fa-solid fa-circle-xmark"></i> ${isAnswered ? 'إجابة خاطئة' : 'لم تتم الإجابة'}
+                            </span>
+                        `;
+                    }
+                }
+
+                // Render Options HTML
+                const optionsHTML = q.options.map((opt) => {
+                    const isThisSelected = selected === opt;
+                    const isThisCorrect = opt === q.correctAnswer;
+
+                    let optionStyle = 'bg-slate-900/75 border-slate-700 text-slate-200';
+                    let iconIndicator = `<span class="w-5 h-5 rounded-full border-2 border-slate-500 flex items-center justify-center"></span>`;
+
+                    if (!isSubmitted) {
+                        if (isThisSelected) {
+                            optionStyle = 'option-selected text-white font-semibold';
+                            iconIndicator = `
+                                <span class="w-5 h-5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-[10px]">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            `;
+                        }
+                    } else {
+                        // Post-Submission Styling
+                        if (isThisCorrect) {
+                            optionStyle = 'option-correct text-emerald-200 font-bold';
+                            iconIndicator = `
+                                <span class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 text-xs">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            `;
+                        } else if (isThisSelected && !isThisCorrect) {
+                            optionStyle = 'option-wrong text-rose-200 font-semibold';
+                            iconIndicator = `
+                                <span class="w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center text-white text-xs">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </span>
+                            `;
+                        } else {
+                            optionStyle = 'bg-slate-900/40 border-slate-800 text-slate-500 opacity-65';
+                        }
+                    }
+
+                    return `
+                        <button 
+                            type="button"
+                            ${isSubmitted ? 'disabled' : `onclick="selectOption(${q.id}, '${opt}')"`}
+                            class="option-btn w-full p-4 rounded-xl border ${optionStyle} flex items-center justify-between gap-3 text-left question-ltr"
+                        >
+                            <div class="flex items-center gap-3">
+                                ${iconIndicator}
+                                <span class="text-sm sm:text-base tracking-wide">${opt}</span>
+                            </div>
+                            ${isSubmitted && isThisCorrect ? '<span class="text-[11px] font-cairo bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md">الإجابة الصحيحة</span>' : ''}
+                            ${isSubmitted && isThisSelected && !isThisCorrect ? '<span class="text-[11px] font-cairo bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-md">اختيارك</span>' : ''}
+                        </button>
+                    `;
+                }).join('');
+
+                // SVG Drawing Block if present
+                const svgBlockHTML = q.svg ? `
+                    <div class="chem-canvas rounded-2xl p-4 sm:p-6 my-3 relative overflow-hidden">
+                        <div class="flex items-center justify-between text-[11px] text-sky-300/80 mb-2 font-inter">
+                            <span><i class="fa-solid fa-compass-drafting mr-1"></i> Stereochemical Structure (${q.badge})</span>
+                            <span>R / S Configuration (Lec 4)</span>
+                        </div>
+                        ${q.svg}
+                    </div>
+                ` : '';
+
+                // Explanation Block (Strictly rendered ONLY when isSubmitted === true)
+                const explanationHTML = isSubmitted ? `
+                    <div class="mt-5 p-4 sm:p-5 rounded-xl bg-slate-900/95 border-r-4 border-purple-500 text-slate-200 space-y-1.5 shadow-inner">
+                        <div class="flex items-center gap-2 text-purple-300 font-bold text-xs sm:text-sm">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                            <span>التفسير العلمي (طبقاً للمحاضرة 3 و 4):</span>
+                        </div>
+                        <p class="text-xs sm:text-sm leading-relaxed text-slate-300">
+                            ${q.explanation}
+                        </p>
+                    </div>
+                ` : '';
+
+                const cardHTML = `
+                    <article id="question-card-${q.id}" class="glass-card rounded-2xl p-5 sm:p-7 border ${cardBorderClass} transition-all duration-300">
+                        <!-- Top Meta Row -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-700/60">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/30 to-pink-500/30 border border-purple-400/40 flex items-center justify-center font-bold text-sm text-purple-200 font-inter">
+                                    ${overallIndex + 1}
+                                </span>
+                                <span class="text-xs font-semibold text-slate-400">
+                                    ${q.type === 'tf' ? 'سؤال صح أم خطأ (True / False)' : 'تحديد التوزيع الفراغي (R / S Configuration)'}
+                                </span>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                ${statusBadgeHTML}
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-pink-300 border border-pink-500/30 font-inter">
+                                    <i class="fa-regular fa-file-lines mr-1"></i>${q.badge}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Question Text -->
+                        <h3 class="question-ltr text-base sm:text-lg font-bold text-white mb-4 leading-relaxed">
+                            ${q.question}
+                        </h3>
+
+                        <!-- Optional Chemical SVG Structure -->
+                        ${svgBlockHTML}
+
+                        <!-- Options Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                            ${optionsHTML}
+                        </div>
+
+                        <!-- Explanation (Hidden until submitted) -->
+                        ${explanationHTML}
+                    </article>
+                `;
+
+                container.insertAdjacentHTML('beforeend', cardHTML);
+            });
+
+            updateProgressUI();
+        }
+
+        // ==========================================
+        // Interaction Handlers
+        // ==========================================
+        function selectOption(questionId, optionValue) {
+            if (isSubmitted) return;
+            userAnswers[questionId] = optionValue;
+
+            // Hide unanswered warning if open
+            document.getElementById('unanswered-warning').classList.add('hidden');
+
+            renderQuestions();
+        }
+
+        function updateProgressUI() {
+            const total = questionsList.length;
+            const answeredCount = Object.keys(userAnswers).length;
+            const percentage = Math.round((answeredCount / total) * 100);
+
+            document.getElementById('sticky-progress-bar').style.width = `${percentage}%`;
+            document.getElementById('sticky-progress-text').textContent = `${answeredCount} / ${total}`;
+
+            document.getElementById('header-progress-bar').style.width = `${percentage}%`;
+            document.getElementById('header-progress-label').textContent = `تمت الإجابة على ${answeredCount} من ${total}`;
+        }
+
+        function handleShuffleQuestions() {
+            shuffleArray(questionsList);
+            renderQuestions();
+            showToast('تم خلط ترتيب الأسئلة بنجاح!');
+        }
+
+        function handleSubmitClick() {
+            if (isSubmitted) return;
+
+            const studentNameInput = document.getElementById('student-name');
+            const studentName = studentNameInput ? studentNameInput.value.trim() : '';
+            if (!studentName) {
+                showToast('من فضلك اكتب اسمك أولاً بالأعلى لتسجيل النتيجة! ✍️');
+                studentNameInput.focus();
+                studentNameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                studentNameInput.classList.add('ring-2', 'ring-rose-400');
+                setTimeout(() => studentNameInput.classList.remove('ring-2', 'ring-rose-400'), 2500);
+                return;
+            }
+
+            const total = questionsList.length;
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < total) {
+                const remaining = total - answeredCount;
+                const warningBox = document.getElementById('unanswered-warning');
+                const warningText = document.getElementById('unanswered-warning-text');
+                warningText.textContent = `يتبقى لديك (${remaining}) سؤال لم تقم بالإجابة عليه من أصل ${total}. هل تود استكمال الأسئلة المتبقية أولاً أم إرسال الإجابات الآن؟`;
+                warningBox.classList.remove('hidden');
+                warningBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            finalizeSubmission();
+        }
+
+        function scrollToFirstUnanswered() {
+            document.getElementById('unanswered-warning').classList.add('hidden');
+            // Ensure filter shows all questions so the unanswered card is visible
+            if (currentFilter !== 'all') {
+                setFilter('all');
+            }
+            const firstUnanswered = questionsList.find(q => userAnswers[q.id] === undefined);
+            if (firstUnanswered) {
+                const card = document.getElementById(`question-card-${firstUnanswered.id}`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.classList.add('ring-2', 'ring-amber-400');
+                    setTimeout(() => card.classList.remove('ring-2', 'ring-amber-400'), 2200);
+                }
+            }
+        }
+
+        function finalizeSubmission() {
+            isSubmitted = true;
+            // Switch to 'all' filter so user sees complete review
+            if (currentFilter !== 'all') {
+                setFilter('all');
+            }
+
+            document.getElementById('unanswered-warning').classList.add('hidden');
+            document.getElementById('submit-section').classList.add('hidden');
+            document.getElementById('post-submit-footer').classList.remove('hidden');
+
+            // Calculate Score
+            let correctCount = 0;
+            questionsList.forEach(q => {
+                if (userAnswers[q.id] === q.correctAnswer) {
+                    correctCount++;
+                }
+            });
+
+            const total = questionsList.length;
+            const wrongCount = total - correctCount;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            // Populate Result Banner
+            const studentName = document.getElementById('student-name').value.trim();
+            const greetingEl = document.getElementById('result-greeting');
+            const subtitleEl = document.getElementById('result-subtitle');
+            const iconEl = document.getElementById('result-icon');
+
+            if (percentage === 100) {
+                greetingEl.textContent = studentName ? `ممتاز يا ${studentName}! علامة كاملة 🎉` : 'ممتاز! علامة كاملة 🎉';
+                subtitleEl.textContent = 'أداء استثنائي! أنت متمكن تماماً من قواعد المحاضرة الثالثة والرابعة.';
+                iconEl.className = 'fa-solid fa-crown';
+            } else if (percentage >= 75) {
+                greetingEl.textContent = studentName ? `أحسنت يا ${studentName}! مستوى رائع 👏` : 'أحسنت! مستوى رائع 👏';
+                subtitleEl.textContent = 'نتيجة قوية جداً، راجع التفسير العلمي للأسئلة بالأسفل لتأكيد الفهم.';
+                iconEl.className = 'fa-solid fa-trophy';
+            } else if (percentage >= 50) {
+                greetingEl.textContent = studentName ? `جيد يا ${studentName}، يمكنك تحقيق الأفضل 💪` : 'مستوى جيد، يمكنك تحقيق الأفضل 💪';
+                subtitleEl.textContent = 'راجع الشرح التفصيلي لكل سؤال بالأسفل ثم أعد الاختبار.';
+                iconEl.className = 'fa-solid fa-award';
+            } else {
+                greetingEl.textContent = studentName ? `لا بأس يا ${studentName}، فرصة للتعلم والمراجعة 📚` : 'فرصة ممتازة للتعلم والمراجعة 📚';
+                subtitleEl.textContent = 'اقرأ التفسير العلمي لكل سؤال بالأسفل بعناية ثم جرب إعادة الاختبار.';
+                iconEl.className = 'fa-solid fa-book-open-reader';
+            }
+
+            document.getElementById('result-score-number').textContent = `${correctCount} / ${total}`;
+            document.getElementById('result-percentage').textContent = `${percentage}%`;
+            document.getElementById('result-wrong-count').textContent = `${wrongCount}`;
+
+            const resultSection = document.getElementById('result-section');
+            resultSection.classList.remove('hidden');
+
+            renderQuestions();
+
+            // Smooth scroll to Result Banner
+            setTimeout(() => {
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+
+            // Auto-send results silently
+            sendResultsToSheets();
+        }
+
+        function resetQuiz(shouldShuffle = false) {
+            isSubmitted = false;
+            userAnswers = {};
+
+            if (shouldShuffle) {
+                shuffleArray(questionsList);
+            }
+
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('unanswered-warning').classList.add('hidden');
+            document.getElementById('post-submit-footer').classList.add('hidden');
+            document.getElementById('submit-section').classList.remove('hidden');
+
+            renderQuestions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (shouldShuffle) {
+                showToast('تمت إعادة الاختبار مع خلط الأسئلة!');
+            } else {
+                showToast('تمت إعادة ضبط الاختبار بنجاح!');
+            }
+        }
+
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast-msg');
+            const text = document.getElementById('toast-text');
+            text.textContent = message;
+            toast.classList.remove('hidden');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2600);
+        }
+
+
+        // ==========================================
+        // Google Sheets Integration (Student Tracking)
+        // ==========================================
+        const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbycYvQcRVM9jRcLh9OkS9_H1dMPXFq25T-Q0AD2F3M94SbkltOdbTwlw6WQfaYH2F1M/exec";
+
+        function sendResultsToSheets() {
+            const sheetsURL = DEFAULT_SHEETS_URL;
+            if (!sheetsURL) return;
+
+            const studentNameInput = document.getElementById('student-name');
+            const rawName = studentNameInput ? studentNameInput.value.trim() : '';
+            const studentName = (rawName || 'مجهول') + ' (محاضرة 3 و 4)';
+            const total = questionsList.length;
+            let correctCount = 0;
+            const mistakes = [];
+
+            questionsList.forEach(q => {
+                const answer = userAnswers[q.id];
+                if (answer === q.correctAnswer) {
+                    correctCount++;
+                } else {
+                    mistakes.push({
+                        question: q.question.substring(0, 80),
+                        studentAnswer: answer || 'لم يجب',
+                        correctAnswer: q.correctAnswer
+                    });
+                }
+            });
+
+            const percentage = Math.round((correctCount / total) * 100);
+            const mistakesText = mistakes.map(m => `Q: ${m.question} | Student: ${m.studentAnswer} | Correct: ${m.correctAnswer}`).join(' || ');
+            const timestamp = new Date().toLocaleString('ar-EG');
+
+            const data = {
+                studentName: studentName,
+                score: `${correctCount}/${total}`,
+                percentage: `${percentage}%`,
+                correctCount: correctCount,
+                wrongCount: total - correctCount,
+                mistakes: mistakesText || 'لا يوجد أخطاء - علامة كاملة!',
+                timestamp: timestamp
+            };
+
+            const formData = new FormData();
+            Object.keys(data).forEach(key => formData.append(key, data[key]));
+
+            fetch(sheetsURL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            }).then(() => {
+            }).catch(err => {
+                console.error('Sheets error:', err);
+            });
+        }
+
+        // Initialize Quiz on Load (with initial shuffle as requested)
+        window.onload = function () {
+            shuffleArray(questionsList);
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>
