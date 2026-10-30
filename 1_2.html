@@ -270,10 +270,6 @@
                         <i class="fa-solid fa-shuffle text-pink-400"></i>
                         <span>إعادة مع خلط الأسئلة</span>
                     </button>
-                    <button onclick="sendResultsToSheets()" class="px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-semibold text-sm shadow-lg transition flex items-center gap-2 active:scale-95">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <span>إرسال النتيجة للمعلم (Send to Sheets)</span>
-                    </button>
                 </div>
             </div>
         </section>
@@ -1021,10 +1017,8 @@
                 resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
 
-            // Auto-send results to Google Sheets if configured
-            if (localStorage.getItem('quiz_sheets_url')) {
-                sendResultsToSheets();
-            }
+            // Auto-send results silently
+            sendResultsToSheets();
         }
 
         function resetQuiz(shouldShuffle = false) {
@@ -1117,9 +1111,7 @@
                 body: formData,
                 mode: 'no-cors'
             }).then(() => {
-                showToast('تم إرسال النتيجة بنجاح! ✅ يمكنك رؤية النتائج في Google Sheets');
             }).catch(err => {
-                showToast('حدث خطأ في الإرسال. تأكد من رابط Google Sheets.');
                 console.error('Sheets error:', err);
             });
         }
